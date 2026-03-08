@@ -11,6 +11,7 @@ import { useMoodRecords } from "@/hooks/useMoodRecords";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { toast } from "sonner";
 import { 
   Sparkles, 
@@ -51,7 +52,7 @@ function loadProfile() {
   }
 }
 
-export default function PerfilPage() {
+function PerfilPageContent() {
   const { records, loading } = useMoodRecords();
   const { theme, setTheme } = useTheme();
   const searchParams = useSearchParams();
@@ -495,5 +496,13 @@ export default function PerfilPage() {
         </motion.div>
       </motion.div>
     </AppShell>
+  );
+}
+
+export default function PerfilPage() {
+  return (
+    <Suspense fallback={null}>
+      <PerfilPageContent />
+    </Suspense>
   );
 }
