@@ -9,8 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Defs,
-  LinearGradient,
 } from "recharts";
 import type { MoodRecord } from "@/lib/moods/types";
 import { moodEmoji, moodScore, MOOD_OPTIONS } from "@/lib/moods/options";
