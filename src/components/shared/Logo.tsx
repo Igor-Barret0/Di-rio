@@ -6,7 +6,7 @@ export function Logo({ className, small }: { className?: string; small?: boolean
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Image
-        src="/logo site.png"
+        src="/logo-site.png"
         alt="Diário Emocional"
         width={small ? 130 : 360}
         height={small ? 48 : 120}
