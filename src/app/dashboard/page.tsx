@@ -327,7 +327,7 @@ export default function DashboardPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + i * 0.08 }}
                     className="rounded-3xl p-4 space-y-2 ring-1"
-                    style={{ background: item.bg, ringColor: item.border, border: `1px solid ${item.border}` }}
+                    style={{ background: item.bg, border: `1px solid ${item.border}` }}
                   >
                     <span className="text-3xl">{item.emoji}</span>
                     <p className="font-black text-sm" style={{ color: item.accent }}>{item.title}</p>
