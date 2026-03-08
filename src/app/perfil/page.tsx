@@ -444,7 +444,7 @@ export default function PerfilPage() {
                       title="Lembretes diários"
                       description="Receba um lembrete para registrar seu humor"
                     >
-                      <Toggle checked={notificacoes} onChange={() => setNotificacoes(v => !v)} />
+                      <Toggle checked={notificacoes} onChange={() => setNotificacoes((v: boolean) => !v)} />
                     </SettingRow>
 
                     <SettingRow
