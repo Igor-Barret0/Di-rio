@@ -99,9 +99,9 @@ export default function InsightsPage() {
             <div className="p-2 rounded-2xl bg-secondary/10 text-secondary shadow-sm">
               <Sparkles className="h-6 w-6" />
             </div>
-            <h1 className="text-4xl font-black tracking-tighter text-[#0F172A]">Insights & Apoio</h1>
+            <h1 className="text-4xl font-black tracking-tighter text-foreground dark:text-white">Insights & Apoio</h1>
           </div>
-          <p className="text-lg font-semibold text-[#475569]/80 max-w-2xl">
+          <p className="text-lg font-semibold text-muted-foreground dark:text-white/70 max-w-2xl">
             Sugestões personalizadas baseadas no seu histórico para fortalecer sua saúde mental.
           </p>
         </motion.div>
@@ -131,14 +131,14 @@ export default function InsightsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <motion.div variants={itemVariants} whileHover={{ y: -8 }} className="group">
-            <Card className="h-full border-none bg-white p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-black/2">
+            <Card className="h-full border-none bg-card p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-border/50">
               <div className="flex flex-col h-full space-y-6">
-                <div className="h-16 w-16 rounded-3xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-inner group-hover:bg-amber-100 transition-colors">
+                <div className="h-16 w-16 rounded-3xl bg-amber-100 dark:bg-amber-950/40 text-amber-600 flex items-center justify-center shadow-inner group-hover:bg-amber-200 dark:group-hover:bg-amber-900/50 transition-colors">
                   <Lightbulb className="h-8 w-8" />
                 </div>
                 <div className="space-y-2 flex-1">
-                  <h3 className="text-xl font-black text-[#0F172A] tracking-tight">Exercício de Respiração</h3>
-                  <p className="text-sm font-bold text-[#475569]/80 leading-relaxed">
+                  <h3 className="text-xl font-black text-foreground tracking-tight">Exercício de Respiração</h3>
+                  <p className="text-sm font-bold text-muted-foreground/80 leading-relaxed">
                     Técnica 4-7-8: inspire por 4s, segure por 7s e solte por 8s. Ajuda a acalmar o sistema nervoso instantaneamente.
                   </p>
                 </div>
@@ -153,14 +153,14 @@ export default function InsightsPage() {
           </motion.div>
 
           <motion.div variants={itemVariants} whileHover={{ y: -8 }} className="group">
-            <Card className="h-full border-none bg-white p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-black/2">
+            <Card className="h-full border-none bg-card p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-border/50">
               <div className="flex flex-col h-full space-y-6">
-                <div className="h-16 w-16 rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner group-hover:bg-indigo-100 transition-colors">
+                <div className="h-16 w-16 rounded-3xl bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 flex items-center justify-center shadow-inner group-hover:bg-indigo-200 dark:group-hover:bg-indigo-900/50 transition-colors">
                   <Video className="h-8 w-8" />
                 </div>
                 <div className="space-y-2 flex-1">
-                  <h3 className="text-xl font-black text-[#0F172A] tracking-tight">Vídeo Educativo</h3>
-                  <p className="text-sm font-bold text-[#475569]/80 leading-relaxed">
+                  <h3 className="text-xl font-black text-foreground tracking-tight">Vídeo Educativo</h3>
+                  <p className="text-sm font-bold text-muted-foreground/80 leading-relaxed">
                     Entenda como a ansiedade funciona no cérebro e aprenda estratégias práticas para lidar com ela no dia a dia.
                   </p>
                 </div>
@@ -175,14 +175,14 @@ export default function InsightsPage() {
           </motion.div>
 
           <motion.div variants={itemVariants} whileHover={{ y: -8 }} className="group">
-            <Card className="h-full border-none bg-white p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-black/2">
+            <Card className="h-full border-none bg-card p-8 rounded-[2.5rem] shadow-premium hover:shadow-premium-hover transition-all ring-1 ring-border/50">
               <div className="flex flex-col h-full space-y-6">
-                <div className="h-16 w-16 rounded-3xl bg-rose-50 text-rose-600 flex items-center justify-center shadow-inner group-hover:bg-rose-100 transition-colors">
+                <div className="h-16 w-16 rounded-3xl bg-rose-100 dark:bg-rose-950/40 text-rose-600 flex items-center justify-center shadow-inner group-hover:bg-rose-200 dark:group-hover:bg-rose-900/50 transition-colors">
                   <HeartPulse className="h-8 w-8" />
                 </div>
                 <div className="space-y-2 flex-1">
-                  <h3 className="text-xl font-black text-[#0F172A] tracking-tight">Frase do Dia</h3>
-                  <p className="text-lg font-bold text-[#475569]/90 italic leading-relaxed pt-2">
+                  <h3 className="text-xl font-black text-foreground tracking-tight">Frase do Dia</h3>
+                  <p className="text-lg font-bold text-muted-foreground/90 italic leading-relaxed pt-2">
                     "{fraseHoje.texto}"
                   </p>
                 </div>

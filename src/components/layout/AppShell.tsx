@@ -37,7 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         />
         <main 
           className={cn(
-            "flex-1 overflow-y-auto px-4 md:px-12 transition-all duration-500 ease-in-out pt-24",
+            "flex-1 overflow-y-auto px-3 sm:px-5 md:px-7 lg:px-12 transition-all duration-500 ease-in-out pt-20 sm:pt-24",
           )}
         >
           <div className="container mx-auto max-w-7xl pb-12">

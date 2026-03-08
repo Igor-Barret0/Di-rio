@@ -165,15 +165,15 @@ export default function HistoricoPage() {
             <div className="p-2 rounded-2xl bg-primary/10 text-primary shadow-sm">
               <History className="h-6 w-6" />
             </div>
-            <h1 className="text-4xl font-black tracking-tighter text-[#0F172A]">Sua Jornada</h1>
+            <h1 className="text-4xl font-black tracking-tighter text-foreground dark:text-white">Sua Jornada</h1>
           </div>
-          <p className="text-lg font-semibold text-[#475569]/80 max-w-2xl">
+          <p className="text-lg font-semibold text-muted-foreground dark:text-white/70 max-w-2xl">
             Acompanhe a evolução dos seus sentimentos e descubra seus padrões emocionais ao longo do tempo.
           </p>
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <Card className="border-none bg-white p-8 rounded-[3rem] shadow-premium ring-1 ring-black/2">
+          <Card className="border-none bg-card p-8 rounded-[3rem] shadow-premium ring-1 ring-border/50">
             {loading ? (
               <div className="space-y-4">
                 <div className="flex gap-4 mb-4">
@@ -186,8 +186,8 @@ export default function HistoricoPage() {
               <Tabs defaultValue="7d" className="w-full">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
                   <TabsList className="bg-muted/50 p-1 rounded-2xl h-12">
-                    <TabsTrigger value="7d" className="rounded-xl px-6 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-lg">7 Dias</TabsTrigger>
-                    <TabsTrigger value="30d" className="rounded-xl px-6 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-lg">30 Dias</TabsTrigger>
+                    <TabsTrigger value="7d" className="rounded-xl px-6 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-card data-[state=active]:shadow-lg">7 Dias</TabsTrigger>
+                    <TabsTrigger value="30d" className="rounded-xl px-6 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-card data-[state=active]:shadow-lg">30 Dias</TabsTrigger>
                   </TabsList>
                   <div className="flex items-center gap-4 text-xs font-black text-muted-foreground uppercase tracking-widest">
                     <div className="flex items-center gap-2">
@@ -215,26 +215,26 @@ export default function HistoricoPage() {
         <motion.div variants={itemVariants} className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <h2 className="text-2xl font-black tracking-tight text-foreground">Calendário Emocional</h2>
+            <h2 className="text-2xl font-black tracking-tight text-foreground dark:text-white">Calendário Emocional</h2>
           </div>
-          <Card className="border-none bg-white p-6 rounded-4xl shadow-premium overflow-x-auto">
+          <Card className="border-none bg-card p-4 sm:p-6 rounded-4xl shadow-premium overflow-x-auto">
             <MoodCalendar records={records} />
           </Card>
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-6">
           <div className="flex items-center justify-between px-2">
-            <h2 className="text-2xl font-black tracking-tight text-[#0F172A]">Registros Recentes</h2>
+            <h2 className="text-2xl font-black tracking-tight text-foreground dark:text-white">Registros Recentes</h2>
             <div className="flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest">
               Total: {records.length} registros
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             {timeline.length === 0 ? (
-              <Card className="col-span-full border-none bg-white p-12 rounded-[2.5rem] shadow-premium text-center space-y-4">
+              <Card className="col-span-full border-none bg-card p-12 rounded-[2.5rem] shadow-premium text-center space-y-4">
                 <Calendar className="h-12 w-12 text-muted-foreground/30 mx-auto" />
-                <p className="text-lg font-bold text-[#475569]">Nenhum registro encontrado ainda.</p>
+                <p className="text-lg font-bold text-muted-foreground">Nenhum registro encontrado ainda.</p>
               </Card>
             ) : (
               timeline.map((r) => {
@@ -248,7 +248,7 @@ export default function HistoricoPage() {
                   >
                     <Card
                       onClick={() => setExpandedId(isExpanded ? null : r.id)}
-                      className="cursor-pointer border-none bg-white rounded-3xl shadow-premium ring-1 ring-black/2 overflow-hidden transition-all hover:shadow-premium-hover"
+                      className="cursor-pointer border-none bg-card rounded-3xl shadow-premium ring-1 ring-border/40 overflow-hidden transition-all hover:shadow-premium-hover"
                     >
                       <div className="flex items-center justify-between p-6">
                         <div className="flex items-center gap-5">
@@ -263,7 +263,7 @@ export default function HistoricoPage() {
                             <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">
                               {new Date(r.dateISO).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
                             </p>
-                            <h3 className="text-lg font-black text-[#0F172A] tracking-tight">{moodOpt?.label}</h3>
+                            <h3 className="text-lg font-black text-foreground tracking-tight">{moodOpt?.label}</h3>
                             {r.note && !isExpanded && (
                               <p className="text-xs text-muted-foreground font-medium truncate max-w-45">💬 {r.note}</p>
                             )}

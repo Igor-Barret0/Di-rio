@@ -62,7 +62,7 @@ export function MoodSelector({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-4 px-1">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 px-1">
         {MOOD_OPTIONS.map((opt) => (
           <MoodCard
             key={opt.key}

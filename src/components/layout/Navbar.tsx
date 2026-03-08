@@ -49,10 +49,10 @@ export function Navbar({
 
   return (
     <div className={cn(
-      "fixed top-4 right-0 z-50 px-4 md:px-8 pointer-events-none text-foreground transition-[left] duration-300",
+      "fixed top-3 sm:top-4 right-0 z-50 px-3 sm:px-4 md:px-6 pointer-events-none text-foreground transition-[left] duration-300",
       sidebarCollapsed ? "left-0 md:left-15" : "left-0 md:left-62"
     )}>
-      <header className="container mx-auto h-16 rounded-2xl border border-white/40 bg-white/70 backdrop-blur-3xl shadow-premium supports-backdrop-filter:bg-white/50 pointer-events-auto flex items-center gap-4 px-6 md:px-8 ring-1 ring-black/5">
+        <header className="container mx-auto h-14 sm:h-16 rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/30 backdrop-blur-3xl shadow-premium supports-backdrop-filter:bg-white/60 dark:supports-backdrop-filter:bg-black/20 pointer-events-auto flex items-center gap-3 px-4 sm:px-6 md:px-8 ring-1 ring-black/5 dark:ring-white/5">
         <div className="flex items-center gap-6 flex-1">
           <Sheet>
             <SheetTrigger
@@ -138,11 +138,13 @@ export function Navbar({
             >
               <div className={cn(
                 "flex items-center gap-2 text-sm font-bold tracking-tight transition-colors duration-300",
-                pathname === item.href ? "text-primary" : "text-muted-foreground group-hover:text-primary"
+                pathname === item.href
+                  ? "text-primary dark:text-white"
+                  : "text-muted-foreground dark:text-white/60 group-hover:text-primary dark:group-hover:text-white"
               )}>
                 <item.icon className={cn(
                   "h-4 w-4 transition-transform duration-300 group-hover:scale-110",
-                  pathname === item.href && "text-primary"
+                  pathname === item.href && "text-primary dark:text-white"
                 )} />
                 <span>{item.label}</span>
               </div>
@@ -163,7 +165,7 @@ export function Navbar({
             type="button"
             variant="ghost"
             size="icon"
-            className="relative w-9 h-9 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
+            className="relative w-9 h-9 rounded-xl text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white hover:bg-muted/70 dark:hover:bg-white/10 transition-colors"
             aria-label="Notificações"
           >
             <Bell className="h-4 w-4" />
@@ -175,7 +177,7 @@ export function Navbar({
             type="button"
             variant="ghost"
             size="icon"
-            className="w-9 h-9 rounded-xl hover:bg-muted/70 transition-colors"
+            className="w-9 h-9 rounded-xl hover:bg-muted/70 dark:hover:bg-white/10 transition-colors"
             onClick={onToggleTheme}
             aria-label="Alternar tema"
           >
@@ -187,14 +189,14 @@ export function Navbar({
           </Button>
 
           {/* Divider */}
-          <div className="w-px h-5 bg-border/60 mx-1" />
+          <div className="w-px h-5 bg-border dark:bg-white/20 mx-1" />
 
           {/* Logout */}
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            className="w-9 h-9 rounded-xl text-muted-foreground hover:text-rose-500 hover:bg-rose-500/8 transition-colors"
+            className="w-9 h-9 rounded-xl text-muted-foreground dark:text-white/60 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
             onClick={logout}
             aria-label="Sair da conta"
           >

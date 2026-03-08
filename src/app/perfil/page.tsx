@@ -60,12 +60,22 @@ function PerfilPageContent() {
     searchParams.get("tab") === "configuracoes" ? "configuracoes" : "perfil"
   );
 
-  const savedProfile = loadProfile();
-  const [nome, setNome] = React.useState(savedProfile?.nome ?? "João Silva");
-  const [turma, setTurma] = React.useState(savedProfile?.turma ?? "8º Ano B");
-  const [escola, setEscola] = React.useState(savedProfile?.escola ?? "Escola Municipal de Inovação");
-  const [notificacoes, setNotificacoes] = React.useState(savedProfile?.notificacoes ?? true);
-  const [modoAnonimo, setModoAnonimo] = React.useState(savedProfile?.modoAnonimo ?? false);
+  const [nome, setNome] = React.useState("João Silva");
+  const [turma, setTurma] = React.useState("8º Ano B");
+  const [escola, setEscola] = React.useState("Escola Municipal de Inovação");
+  const [notificacoes, setNotificacoes] = React.useState(true);
+  const [modoAnonimo, setModoAnonimo] = React.useState(false);
+
+  React.useEffect(() => {
+    const saved = loadProfile();
+    if (saved) {
+      if (saved.nome !== undefined) setNome(saved.nome);
+      if (saved.turma !== undefined) setTurma(saved.turma);
+      if (saved.escola !== undefined) setEscola(saved.escola);
+      if (saved.notificacoes !== undefined) setNotificacoes(saved.notificacoes);
+      if (saved.modoAnonimo !== undefined) setModoAnonimo(saved.modoAnonimo);
+    }
+  }, []);
 
   const initials = nome.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase();
 
@@ -132,7 +142,7 @@ function PerfilPageContent() {
           {icon}
         </div>
         <div>
-          <p className="text-sm font-bold text-[#0F172A]">{title}</p>
+          <p className="text-sm font-bold text-foreground">{title}</p>
           {description && <p className="text-xs text-muted-foreground mt-0.5 font-medium">{description}</p>}
         </div>
       </div>
@@ -172,9 +182,9 @@ function PerfilPageContent() {
             <div className="p-2 rounded-2xl bg-primary/10 text-primary shadow-sm">
               <User className="h-6 w-6" />
             </div>
-            <h1 className="text-4xl font-black tracking-tighter text-[#0F172A]">Seu Perfil</h1>
+            <h1 className="text-4xl font-black tracking-tighter text-foreground dark:text-white">Seu Perfil</h1>
           </div>
-          <p className="text-lg font-semibold text-[#475569]/80 max-w-2xl">
+          <p className="text-lg font-semibold text-muted-foreground dark:text-white/70 max-w-2xl">
             Gerencie suas informações e veja o resumo da sua dedicação ao seu bem-estar.
           </p>
         </motion.div>
@@ -194,7 +204,7 @@ function PerfilPageContent() {
             <TabsContent value="perfil">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div className="lg:col-span-4 space-y-6">
-                  <Card className="border-none bg-white p-8 rounded-[3rem] shadow-premium ring-1 ring-black/2 relative overflow-hidden text-center flex flex-col items-center">
+                  <Card className="border-none bg-card p-8 rounded-[3rem] shadow-premium ring-1 ring-border/50 relative overflow-hidden text-center flex flex-col items-center">
                     <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-br from-primary/5 to-secondary/5 -z-10" />
                     <div className="relative mb-6">
                       <div className="absolute -inset-2 bg-linear-to-tr from-primary to-secondary rounded-full blur opacity-20" />
@@ -207,15 +217,15 @@ function PerfilPageContent() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-black tracking-tight text-[#0F172A]">{modoAnonimo ? "Usuário Anônimo" : nome}</h2>
+                      <h2 className="text-2xl font-black tracking-tight text-foreground">{modoAnonimo ? "Usuário Anônimo" : nome}</h2>
                       <p className="text-sm font-bold text-primary uppercase tracking-widest">Estudante Premium</p>
                     </div>
                     <div className="mt-8 w-full space-y-4 pt-8 border-t border-primary/5">
-                      <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-muted/30 text-[#475569]">
+                      <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-muted/30 text-muted-foreground">
                         <GraduationCap className="h-5 w-5 text-primary" />
                         <span className="text-sm font-bold">{turma} - Ensino Fundamental</span>
                       </div>
-                      <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-muted/30 text-[#475569]">
+                      <div className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-muted/30 text-muted-foreground">
                         <MapPin className="h-5 w-5 text-primary" />
                         <span className="text-sm font-bold">{escola}</span>
                       </div>
@@ -251,10 +261,10 @@ function PerfilPageContent() {
 
                 <div className="lg:col-span-8 space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="border-none bg-white p-8 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                    <Card className="border-none bg-card p-8 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                       <div className="flex items-start justify-between mb-8">
                         <div className="space-y-1">
-                          <h3 className="text-lg font-black text-[#0F172A] tracking-tight">Total de Registros</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">Total de Registros</h3>
                           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Desde o início</p>
                         </div>
                         <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
@@ -267,10 +277,10 @@ function PerfilPageContent() {
                       </div>
                     </Card>
 
-                    <Card className="border-none bg-white p-8 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                    <Card className="border-none bg-card p-8 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                       <div className="flex items-start justify-between mb-8">
                         <div className="space-y-1">
-                          <h3 className="text-lg font-black text-[#0F172A] tracking-tight">Média de Bem-estar</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">Média de Bem-estar</h3>
                           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Score Geral</p>
                         </div>
                         <div className="h-12 w-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center">
@@ -284,8 +294,8 @@ function PerfilPageContent() {
                     </Card>
                   </div>
 
-                  <Card className="border-none bg-white p-10 rounded-[3rem] shadow-premium ring-1 ring-black/2">
-                    <h3 className="text-xl font-black text-[#0F172A] tracking-tight mb-8">Distribuição de Humor</h3>
+                  <Card className="border-none bg-card p-10 rounded-[3rem] shadow-premium ring-1 ring-border/50">
+                    <h3 className="text-xl font-black text-foreground tracking-tight mb-8">Distribuição de Humor</h3>
                     <div className="space-y-6">
                       {MOOD_OPTIONS.map((opt) => {
                         const count = stats.byMood[opt.key] ?? 0;
@@ -295,7 +305,7 @@ function PerfilPageContent() {
                             <div className="flex justify-between items-center px-1">
                               <div className="flex items-center gap-3">
                                 <span className="text-2xl">{opt.emoji}</span>
-                                <span className="text-sm font-bold text-[#0F172A]">{opt.label}</span>
+                                <span className="text-sm font-bold text-foreground">{opt.label}</span>
                               </div>
                               <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">{count} registros ({percent}%)</span>
                             </div>
@@ -341,13 +351,13 @@ function PerfilPageContent() {
                 <div className="lg:col-span-5 space-y-6">
 
                   {/* Minha Conta */}
-                  <Card className="border-none bg-white p-8 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                  <Card className="border-none bg-card p-8 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="h-10 w-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                         <User className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-black text-[#0F172A] tracking-tight">Minha Conta</h3>
+                        <h3 className="text-base font-black text-foreground tracking-tight">Minha Conta</h3>
                         <p className="text-xs font-medium text-muted-foreground">Informações pessoais</p>
                       </div>
                     </div>
@@ -394,13 +404,13 @@ function PerfilPageContent() {
                 <div className="lg:col-span-7 space-y-6">
 
                   {/* Aparência */}
-                  <Card className="border-none bg-white p-8 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                  <Card className="border-none bg-card p-8 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="h-10 w-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-2xl bg-amber-100 dark:bg-amber-950/40 text-amber-600 flex items-center justify-center">
                         <Palette className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-black text-[#0F172A] tracking-tight">Aparência</h3>
+                        <h3 className="text-base font-black text-foreground tracking-tight">Aparência</h3>
                         <p className="text-xs font-medium text-muted-foreground">Tema visual do aplicativo</p>
                       </div>
                     </div>
@@ -429,13 +439,13 @@ function PerfilPageContent() {
                   </Card>
 
                   {/* Notificações e Privacidade */}
-                  <Card className="border-none bg-white px-8 pt-6 pb-2 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                  <Card className="border-none bg-card px-8 pt-6 pb-2 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="h-10 w-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-2xl bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 flex items-center justify-center">
                         <Bell className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-black text-[#0F172A] tracking-tight">Preferências</h3>
+                        <h3 className="text-base font-black text-foreground tracking-tight">Preferências</h3>
                         <p className="text-xs font-medium text-muted-foreground">Notificações e privacidade</p>
                       </div>
                     </div>
@@ -458,13 +468,13 @@ function PerfilPageContent() {
                   </Card>
 
                   {/* Dados */}
-                  <Card className="border-none bg-white px-8 pt-6 pb-2 rounded-[2.5rem] shadow-premium ring-1 ring-black/2">
+                  <Card className="border-none bg-card px-8 pt-6 pb-2 rounded-[2.5rem] shadow-premium ring-1 ring-border/50">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="h-10 w-10 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-2xl bg-muted text-muted-foreground flex items-center justify-center">
                         <Database className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-black text-[#0F172A] tracking-tight">Meus Dados</h3>
+                        <h3 className="text-base font-black text-foreground tracking-tight">Meus Dados</h3>
                         <p className="text-xs font-medium text-muted-foreground">Exportar ou apagar registros</p>
                       </div>
                     </div>

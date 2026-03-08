@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const BASE = "/Di-rio";
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function Logo({ className, small }: { className?: string; small?: boolean }) {
   return (

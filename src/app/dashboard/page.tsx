@@ -204,14 +204,14 @@ export default function DashboardPage() {
           >
             {/* Header card skeleton */}
             <Skeleton className="h-40 w-full rounded-4xl" />
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-8 space-y-8">
-                <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+              <div className="md:col-span-8 space-y-8">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
                   {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-40 rounded-4xl" />)}
                 </div>
                 <Skeleton className="h-64 rounded-4xl" />
               </div>
-              <div className="lg:col-span-4 space-y-4">
+              <div className="md:col-span-4 space-y-4">
                 <Skeleton className="h-32 rounded-2xl" />
                 <Skeleton className="h-24 rounded-2xl" />
                 <Skeleton className="h-24 rounded-2xl" />
@@ -228,30 +228,37 @@ export default function DashboardPage() {
             transition={{ duration: 0.5 }}
             className="min-h-[85vh] flex items-center justify-center py-8"
           >
-            <div className="max-w-2xl w-full px-4 space-y-10">
+            <div className="max-w-2xl w-full px-4 space-y-6">
 
               {/* Hero */}
-              <div className="relative rounded-4xl overflow-hidden bg-linear-to-br from-primary/90 via-primary to-secondary p-8 md:p-12 text-white shadow-2xl shadow-primary/30">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="relative rounded-4xl overflow-hidden p-8 md:p-10 shadow-premium"
+                style={{ background: "linear-gradient(135deg, oklch(0.50 0.22 268) 0%, oklch(0.42 0.20 268) 50%, oklch(0.70 0.13 158) 100%)" }}
+              >
                 {/* blobs decorativos */}
-                <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
-                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/30 rounded-full blur-2xl" />
+                <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20" style={{ background: "oklch(0.70 0.13 158)", filter: "blur(60px)", transform: "translate(30%, -30%)" }} />
+                <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-15" style={{ background: "oklch(0.99 0 0)", filter: "blur(40px)", transform: "translate(-20%, 30%)" }} />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-white">
                   <motion.div
                     initial={{ y: 0 }}
                     animate={{ y: [-8, 8, -8] }}
                     transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                    className="text-7xl md:text-8xl select-none shrink-0 drop-shadow-xl"
+                    className="text-7xl select-none shrink-0 drop-shadow-2xl"
                   >
                     📓
                   </motion.div>
 
                   <div className="text-center md:text-left space-y-3">
                     <motion.div
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
-                      className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest"
+                      transition={{ delay: 0.2 }}
+                      className="inline-flex items-center gap-2 border border-white/30 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest"
+                      style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)" }}
                     >
                       <span className="relative flex h-2 w-2">
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
@@ -261,69 +268,70 @@ export default function DashboardPage() {
                     </motion.div>
 
                     <motion.h1
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="text-3xl md:text-4xl font-black tracking-tight leading-tight"
+                      transition={{ delay: 0.25 }}
+                      className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight"
                     >
-                      Seu Diário<br />
-                      <span className="text-white/80">Emocional</span> começa aqui
+                      Seu Diário <span className="opacity-80">Emocional</span><br className="hidden sm:block" />começa aqui ✨
                     </motion.h1>
 
                     <motion.p
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="text-white/80 font-semibold text-sm md:text-base leading-relaxed max-w-sm"
+                      className="text-sm md:text-base leading-relaxed max-w-sm font-medium opacity-85"
                     >
-                      Um espaço seguro e privado para você acompanhar suas emoções, construir hábitos saudáveis e se conhecer melhor.
+                      Seu espaço seguro e privado para acompanhar emoções, construir hábitos saudáveis e se conhecer melhor.
                     </motion.p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Cards de recursos */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4"
               >
                 {[
                   {
                     emoji: "😊",
-                    color: "from-amber-400/20 to-orange-400/10",
-                    border: "border-amber-200/50 dark:border-amber-500/20",
+                    bg: "oklch(0.97 0.015 268)",
+                    border: "oklch(0.88 0.04 268)",
+                    accent: "oklch(0.50 0.22 268)",
                     title: "Registro diário",
-                    desc: "Capture seu humor em segundos, todos os dias",
+                    desc: "Capture seu humor em segundos",
                   },
                   {
                     emoji: "📊",
-                    color: "from-blue-400/20 to-indigo-400/10",
-                    border: "border-blue-200/50 dark:border-blue-500/20",
+                    bg: "oklch(0.97 0.012 158)",
+                    border: "oklch(0.88 0.05 158)",
+                    accent: "oklch(0.55 0.15 158)",
                     title: "Evolução visual",
-                    desc: "Gráficos e calendário mostram sua jornada emocional",
+                    desc: "Gráficos da sua jornada emocional",
                   },
                   {
                     emoji: "💡",
-                    color: "from-emerald-400/20 to-teal-400/10",
-                    border: "border-emerald-200/50 dark:border-emerald-500/20",
-                    title: "Dicas personalizadas",
-                    desc: "Conteúdos selecionados para o seu bem-estar",
+                    bg: "oklch(0.97 0.015 268)",
+                    border: "oklch(0.88 0.04 268)",
+                    accent: "oklch(0.50 0.22 268)",
+                    title: "Dicas",
+                    desc: "Conteúdos para seu bem-estar",
                   },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    className={`bg-linear-to-br ${item.color} border ${item.border} rounded-3xl p-5 space-y-3 backdrop-blur-sm`}
+                    transition={{ delay: 0.4 + i * 0.08 }}
+                    className="rounded-3xl p-4 space-y-2 ring-1"
+                    style={{ background: item.bg, ringColor: item.border, border: `1px solid ${item.border}` }}
                   >
-                    <span className="text-4xl">{item.emoji}</span>
-                    <div>
-                      <p className="font-black text-foreground text-sm">{item.title}</p>
-                      <p className="text-xs text-muted-foreground font-medium leading-relaxed mt-0.5">{item.desc}</p>
-                    </div>
+                    <span className="text-3xl">{item.emoji}</span>
+                    <p className="font-black text-sm" style={{ color: item.accent }}>{item.title}</p>
+                    <p className="text-xs text-muted-foreground font-medium leading-relaxed">{item.desc}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -332,11 +340,12 @@ export default function DashboardPage() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65 }}
-                className="bg-card border border-border/50 rounded-4xl p-6 md:p-8 shadow-lg space-y-5"
+                transition={{ delay: 0.6 }}
+                className="rounded-4xl p-6 md:p-8 space-y-5 ring-1 ring-border/40 shadow-card"
+                style={{ background: "oklch(1 0 0)" }}
               >
                 <div className="text-center space-y-1">
-                  <p className="text-xs font-black uppercase tracking-widest text-primary">Primeiro passo</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: "oklch(0.50 0.22 268)" }}>Primeiro passo</p>
                   <h2 className="text-xl font-black text-foreground">Como você está se sentindo agora?</h2>
                   <p className="text-sm text-muted-foreground font-medium">Selecione o humor que melhor representa seu momento</p>
                 </div>
@@ -357,7 +366,7 @@ export default function DashboardPage() {
           <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-secondary/20 rounded-4xl blur-xl opacity-50 -z-10" />
           <Card className="dee-bg overflow-hidden border-none p-0 shadow-xl rounded-4xl ring-1 ring-white/50 dark:ring-white/10">
             <div className="p-6 md:p-8 relative z-10">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-6">
                   <motion.div
                     whileHover={{ scale: 1.05, rotate: 5 }}
@@ -387,7 +396,7 @@ export default function DashboardPage() {
                       Perfil Estudante
                     </div>
                     <div>
-                      <h1 className="text-3xl font-black tracking-tight md:text-4xl text-foreground leading-tight">
+                      <h1 className="text-2xl sm:text-3xl font-black tracking-tight md:text-4xl text-foreground leading-tight">
                         Olá, <span className="text-primary">João Silva</span>
                       </h1>
                       <p className="text-sm font-semibold text-muted-foreground/80 max-w-md leading-relaxed">
@@ -397,7 +406,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 lg:min-w-auto">
+                <div className="flex flex-col sm:flex-row gap-4 md:min-w-auto">
                   <div className="glass-morphism rounded-2xl p-4 shadow-lg space-y-3 min-w-45">
                     <div className="flex justify-between items-end">
                       <div className="space-y-0.5">
@@ -435,13 +444,13 @@ export default function DashboardPage() {
           </Card>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <motion.div variants={itemVariants} className="lg:col-span-8 space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+          <motion.div variants={itemVariants} className="md:col-span-8 space-y-8">
             <section className="space-y-6">
               <div className="flex items-end justify-between px-2">
                 <div className="space-y-1">
-                  <h2 className="text-2xl font-black tracking-tight text-foreground">Como você se sente?</h2>
-                  <p className="text-sm font-bold text-muted-foreground">Escolha o emoji que representa seu agora</p>
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight text-white">Como você se sente?</h2>
+                  <p className="text-xs sm:text-sm font-bold text-white/60">Escolha o emoji que representa seu agora</p>
                 </div>
               </div>
 
@@ -469,7 +478,7 @@ export default function DashboardPage() {
 
             <section className="space-y-6">
               <div className="flex items-center justify-between px-2">
-                <h2 className="text-2xl font-black tracking-tight text-foreground">Sua Jornada</h2>
+                <h2 className="text-2xl font-black tracking-tight text-white">Sua Jornada</h2>
                 <Link href="/historico" className="group flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest hover:opacity-70 transition-all">
                   Ver tudo <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -490,8 +499,8 @@ export default function DashboardPage() {
             </section>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="lg:col-span-4 space-y-6">
-            <h2 className="text-2xl font-black tracking-tight text-foreground px-2">Insights</h2>
+          <motion.div variants={itemVariants} className="md:col-span-4 space-y-6">
+            <h2 className="text-2xl font-black tracking-tight text-white px-2">Insights</h2>
             <div className="grid gap-4">
 
               {/* Card de Meta */}
