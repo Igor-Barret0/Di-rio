@@ -222,69 +222,127 @@ export default function DashboardPage() {
         ) : showOnboarding ? (
           <motion.div
             key="onboarding"
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.94 }}
-            transition={{ duration: 0.4 }}
-            className="min-h-[80vh] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.5 }}
+            className="min-h-[85vh] flex items-center justify-center py-8"
           >
-            <div className="max-w-lg w-full text-center space-y-8 px-4">
-              {/* Ilustração animada */}
-              <motion.div
-                initial={{ y: 0 }}
-                animate={{ y: [-6, 6, -6] }}
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className="text-8xl select-none"
-              >
-                📓
-              </motion.div>
+            <div className="max-w-2xl w-full px-4 space-y-10">
 
-              <div className="space-y-3">
-                <motion.h1
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 }}
-                  className="text-4xl font-black tracking-tight text-foreground"
-                >
-                  Bem-vindo ao seu <span className="text-primary">Diário Emocional</span>!
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25 }}
-                  className="text-muted-foreground font-semibold text-lg leading-relaxed"
-                >
-                  Este é seu espaço seguro para registrar como você se sente todos os dias. Comece agora escolhendo seu humor de hoje!
-                </motion.p>
+              {/* Hero */}
+              <div className="relative rounded-4xl overflow-hidden bg-linear-to-br from-primary/90 via-primary to-secondary p-8 md:p-12 text-white shadow-2xl shadow-primary/30">
+                {/* blobs decorativos */}
+                <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
+                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/30 rounded-full blur-2xl" />
+
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                  <motion.div
+                    initial={{ y: 0 }}
+                    animate={{ y: [-8, 8, -8] }}
+                    transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+                    className="text-7xl md:text-8xl select-none shrink-0 drop-shadow-xl"
+                  >
+                    📓
+                  </motion.div>
+
+                  <div className="text-center md:text-left space-y-3">
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                      className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest"
+                    >
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                      </span>
+                      Bem-vindo!
+                    </motion.div>
+
+                    <motion.h1
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="text-3xl md:text-4xl font-black tracking-tight leading-tight"
+                    >
+                      Seu Diário<br />
+                      <span className="text-white/80">Emocional</span> começa aqui
+                    </motion.h1>
+
+                    <motion.p
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-white/80 font-semibold text-sm md:text-base leading-relaxed max-w-sm"
+                    >
+                      Um espaço seguro e privado para você acompanhar suas emoções, construir hábitos saudáveis e se conhecer melhor.
+                    </motion.p>
+                  </div>
+                </div>
               </div>
 
-              {/* Passos */}
+              {/* Cards de recursos */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="grid grid-cols-3 gap-4 text-sm"
+                className="grid grid-cols-1 md:grid-cols-3 gap-4"
               >
                 {[
-                  { emoji: "😊", label: "Registre seu humor diariamente" },
-                  { emoji: "📈", label: "Acompanhe sua evolução emocional" },
-                  { emoji: "💡", label: "Receba dicas personalizadas" },
-                ].map((step, i) => (
-                  <div key={i} className="bg-card rounded-2xl p-4 shadow-sm border border-border/50 space-y-2">
-                    <div className="text-3xl">{step.emoji}</div>
-                    <p className="font-bold text-foreground text-xs leading-tight">{step.label}</p>
-                  </div>
+                  {
+                    emoji: "😊",
+                    color: "from-amber-400/20 to-orange-400/10",
+                    border: "border-amber-200/50 dark:border-amber-500/20",
+                    title: "Registro diário",
+                    desc: "Capture seu humor em segundos, todos os dias",
+                  },
+                  {
+                    emoji: "📊",
+                    color: "from-blue-400/20 to-indigo-400/10",
+                    border: "border-blue-200/50 dark:border-blue-500/20",
+                    title: "Evolução visual",
+                    desc: "Gráficos e calendário mostram sua jornada emocional",
+                  },
+                  {
+                    emoji: "💡",
+                    color: "from-emerald-400/20 to-teal-400/10",
+                    border: "border-emerald-200/50 dark:border-emerald-500/20",
+                    title: "Dicas personalizadas",
+                    desc: "Conteúdos selecionados para o seu bem-estar",
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + i * 0.1 }}
+                    className={`bg-linear-to-br ${item.color} border ${item.border} rounded-3xl p-5 space-y-3 backdrop-blur-sm`}
+                  >
+                    <span className="text-4xl">{item.emoji}</span>
+                    <div>
+                      <p className="font-black text-foreground text-sm">{item.title}</p>
+                      <p className="text-xs text-muted-foreground font-medium leading-relaxed mt-0.5">{item.desc}</p>
+                    </div>
+                  </motion.div>
                 ))}
               </motion.div>
 
+              {/* Seletor de humor */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45 }}
+                transition={{ delay: 0.65 }}
+                className="bg-card border border-border/50 rounded-4xl p-6 md:p-8 shadow-lg space-y-5"
               >
-                <p className="text-sm font-bold text-muted-foreground mb-4 uppercase tracking-widest">Como você está se sentindo agora?</p>
+                <div className="text-center space-y-1">
+                  <p className="text-xs font-black uppercase tracking-widest text-primary">Primeiro passo</p>
+                  <h2 className="text-xl font-black text-foreground">Como você está se sentindo agora?</h2>
+                  <p className="text-sm text-muted-foreground font-medium">Selecione o humor que melhor representa seu momento</p>
+                </div>
                 <MoodSelector value={mood} onChange={onChange} />
               </motion.div>
+
             </div>
           </motion.div>
         ) : (
