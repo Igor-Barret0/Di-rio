@@ -19,6 +19,10 @@ import {
   X,
   Check,
   Trash2,
+  MessageSquare,
+  Trophy,
+  Target,
+  ClipboardList,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -29,10 +33,15 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useNotifications, iconForType } from "@/lib/context/NotificationsContext";
 
 const navItems = [
-  { href: "/dashboard", label: "Início", icon: Home },
-  { href: "/historico", label: "Jornada", icon: BarChart3 },
-  { href: "/insights", label: "Dicas", icon: Lightbulb },
-  { href: "/perfil", label: "Perfil", icon: User },
+  { href: "/dashboard",    label: "Início",        icon: Home },
+  { href: "/historico",    label: "Jornada",       icon: BarChart3 },
+  { href: "/insights",     label: "Dicas",         icon: Lightbulb },
+  { href: "/chat",         label: "Chat IA",       icon: MessageSquare },
+  { href: "/desafios",     label: "Desafios",      icon: Trophy },
+  { href: "/metas",        label: "Metas",         icon: Target },
+  { href: "/avaliacoes",   label: "Avaliações",    icon: ClipboardList },
+  { href: "/notificacoes", label: "Notificações",  icon: Bell },
+  { href: "/perfil",       label: "Perfil",        icon: User },
 ];
 
 function timeAgo(iso: string) {
