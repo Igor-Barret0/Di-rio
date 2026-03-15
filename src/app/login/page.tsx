@@ -204,7 +204,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.9 }}
-            className="flex items-center gap-6 px-1"
+            className="flex items-center gap-6 px-1 mt-4"
           >
             {stats.map((s, i) => (
               <React.Fragment key={s.value}>
