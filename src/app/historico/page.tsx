@@ -288,9 +288,9 @@ export default function HistoricoPage() {
             ) : (
               <Tabs defaultValue="7d">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                  <TabsList className="bg-muted/60 p-1 rounded-2xl h-10 w-fit">
-                    <TabsTrigger value="7d" className="rounded-xl px-5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-background data-[state=active]:shadow-sm">7 Dias</TabsTrigger>
-                    <TabsTrigger value="30d" className="rounded-xl px-5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-background data-[state=active]:shadow-sm">30 Dias</TabsTrigger>
+                  <TabsList className="bg-muted/60 p-1 rounded-2xl h-10 w-full sm:w-fit">
+                    <TabsTrigger value="7d" className="flex-1 sm:flex-none rounded-xl px-5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-background data-[state=active]:shadow-sm">7 Dias</TabsTrigger>
+                    <TabsTrigger value="30d" className="flex-1 sm:flex-none rounded-xl px-5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-background data-[state=active]:shadow-sm">30 Dias</TabsTrigger>
                   </TabsList>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground">
