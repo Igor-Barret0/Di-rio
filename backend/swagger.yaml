@@ -1,0 +1,1435 @@
+openapi: 3.0.3
+info:
+  title: Diário Emocional Escolar — API
+  description: |
+    API REST do sistema de acompanhamento emocional escolar.
+
+    ## Autenticação
+    A maioria dos endpoints exige um token JWT no header:
+    ```
+    Authorization: Bearer <accessToken>
+    ```
+    Obtenha o token via `/auth/login` ou `/auth/register`.
+
+    ## Base URL (produção)
+    `https://diario-emocional-api-tqel.onrender.com/api`
+  version: 1.0.0
+  contact:
+    name: Suporte
+    email: igor.barr3to09@gmail.com
+
+servers:
+  - url: https://diario-emocional-api-tqel.onrender.com/api
+    description: Produção (Render)
+  - url: http://localhost:3002/api
+    description: Desenvolvimento local
+
+tags:
+  - name: Auth
+    description: Registro, login, logout e recuperação de senha
+  - name: Users
+    description: Perfil e dados do usuário autenticado
+  - name: Moods
+    description: Registro e histórico de humor diário
+  - name: Challenges
+    description: Desafios de bem-estar
+  - name: Goals
+    description: Metas pessoais
+  - name: Assessments
+    description: Avaliações de saúde mental (PHQ-9, GAD-7, AUDIT)
+  - name: Chat
+    description: Conversa com IA de apoio emocional
+  - name: Notifications
+    description: Notificações do sistema
+  - name: Resources
+    description: Recursos de apoio à saúde mental
+  - name: Admin
+    description: Painel administrativo (requer role ADMIN ou COUNSELOR)
+
+# ─── SECURITY ────────────────────────────────────────────────────────────────
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Mensagem de erro
+
+    AuthTokens:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: João Silva
+        email:
+          type: string
+          format: email
+          example: joao@escola.com
+        role:
+          type: string
+          enum: [STUDENT, COUNSELOR, ADMIN]
+        isActive:
+          type: boolean
+        avatarUrl:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    Profile:
+      type: object
+      properties:
+        school:
+          type: string
+          nullable: true
+        grade:
+          type: string
+          nullable: true
+        birthDate:
+          type: string
+          format: date
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        timezone:
+          type: string
+          example: America/Sao_Paulo
+        reminderEnabled:
+          type: boolean
+        reminderTime:
+          type: string
+          example: "08:00"
+
+    MoodRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        mood:
+          type: string
+          enum: [FELIZ, ANIMADO, NEUTRO, ANSIOSO, TRISTE, IRRITADO, CANSADO]
+        note:
+          type: string
+          nullable: true
+        dateISO:
+          type: string
+          format: date
+          example: "2026-03-15"
+        riskLevel:
+          type: string
+          enum: [NONE, LOW, MEDIUM, HIGH, CRITICAL]
+        createdAt:
+          type: string
+          format: date-time
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [REMINDER, BADGE_UNLOCKED, CHALLENGE_COMPLETE, RISK_ALERT, SYSTEM]
+        title:
+          type: string
+        body:
+          type: string
+        read:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: CVV — Centro de Valorização da Vida
+        description:
+          type: string
+        type:
+          type: string
+          enum: [HOTLINE, WEBSITE, APP, SERVICE]
+        url:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        pages:
+          type: integer
+
+# ─── PATHS ───────────────────────────────────────────────────────────────────
+paths:
+
+  # ── AUTH ──────────────────────────────────────────────────────────────────
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Criar nova conta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                  example: João Silva
+                email:
+                  type: string
+                  format: email
+                  example: joao@escola.com
+                password:
+                  type: string
+                  minLength: 8
+                  example: Senha@123
+      responses:
+        "201":
+          description: Conta criada com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AuthTokens"
+                  - type: object
+                    properties:
+                      user:
+                        $ref: "#/components/schemas/User"
+        "409":
+          description: E-mail já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Fazer login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: joao@escola.com
+                password:
+                  type: string
+                  example: Senha@123
+      responses:
+        "200":
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/AuthTokens"
+                  - type: object
+                    properties:
+                      user:
+                        $ref: "#/components/schemas/User"
+        "401":
+          description: E-mail ou senha incorretos
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Renovar access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Tokens renovados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+        "401":
+          description: Refresh token inválido ou expirado
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Encerrar sessão
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Sessão encerrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Sessão encerrada com sucesso
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Dados do usuário autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Dados do usuário
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - type: object
+                    properties:
+                      profile:
+                        $ref: "#/components/schemas/Profile"
+                      totalXP:
+                        type: integer
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Solicitar redefinição de senha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Email enviado (sempre retorna 200 para evitar enumeração de emails)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Redefinir senha com token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password]
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+                  minLength: 8
+      responses:
+        "200":
+          description: Senha atualizada com sucesso
+        "400":
+          description: Token inválido ou expirado
+
+  /auth/google:
+    get:
+      tags: [Auth]
+      summary: Iniciar login com Google
+      responses:
+        "302":
+          description: Redireciona para tela de consentimento do Google
+
+  /auth/google/callback:
+    get:
+      tags: [Auth]
+      summary: Callback do Google OAuth
+      responses:
+        "302":
+          description: Redireciona para o frontend com tokens na query string
+
+  # ── USERS ─────────────────────────────────────────────────────────────────
+  /users/me:
+    get:
+      tags: [Users]
+      summary: Obter perfil completo do usuário
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Perfil do usuário
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/User"
+                  - type: object
+                    properties:
+                      profile:
+                        $ref: "#/components/schemas/Profile"
+                      totalXP:
+                        type: integer
+                      level:
+                        type: integer
+                      xpToNext:
+                        type: integer
+
+    patch:
+      tags: [Users]
+      summary: Atualizar perfil do usuário
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                avatarUrl:
+                  type: string
+                school:
+                  type: string
+                grade:
+                  type: string
+                birthDate:
+                  type: string
+                  format: date
+                bio:
+                  type: string
+                timezone:
+                  type: string
+                reminderEnabled:
+                  type: boolean
+                reminderTime:
+                  type: string
+                  example: "08:00"
+      responses:
+        "200":
+          description: Perfil atualizado
+
+    delete:
+      tags: [Users]
+      summary: Excluir conta
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: Obrigatório para contas com senha (não OAuth)
+      responses:
+        "204":
+          description: Conta excluída
+
+  /users/me/password:
+    patch:
+      tags: [Users]
+      summary: Alterar senha
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentPassword, newPassword]
+              properties:
+                currentPassword:
+                  type: string
+                newPassword:
+                  type: string
+                  minLength: 8
+      responses:
+        "200":
+          description: Senha alterada
+        "401":
+          description: Senha atual incorreta
+
+  /users/me/stats:
+    get:
+      tags: [Users]
+      summary: Estatísticas do usuário
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Estatísticas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalMoods:
+                    type: integer
+                  totalChallengesCompleted:
+                    type: integer
+                  totalBadges:
+                    type: integer
+                  totalXP:
+                    type: integer
+                  level:
+                    type: integer
+                  xpToNext:
+                    type: integer
+                  badges:
+                    type: array
+                    items:
+                      type: object
+
+  # ── MOODS ─────────────────────────────────────────────────────────────────
+  /moods:
+    post:
+      tags: [Moods]
+      summary: Registrar humor do dia
+      description: Cria ou atualiza o registro de humor para a data informada. Apenas um registro por dia é permitido.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mood]
+              properties:
+                mood:
+                  type: string
+                  enum: [FELIZ, ANIMADO, NEUTRO, ANSIOSO, TRISTE, IRRITADO, CANSADO]
+                note:
+                  type: string
+                  description: Anotação opcional
+                dateISO:
+                  type: string
+                  format: date
+                  description: Data do registro (padrão hoje)
+      responses:
+        "200":
+          description: Registro criado ou atualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoodRecord"
+
+    get:
+      tags: [Moods]
+      summary: Listar registros de humor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Lista de registros
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MoodRecord"
+                  meta:
+                    $ref: "#/components/schemas/Pagination"
+
+  /moods/stats:
+    get:
+      tags: [Moods]
+      summary: Estatísticas de humor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Estatísticas de humor no período
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  frequency:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  totalXP:
+                    type: integer
+
+  /moods/{date}:
+    get:
+      tags: [Moods]
+      summary: Buscar registro de uma data específica
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+            example: "2026-03-15"
+      responses:
+        "200":
+          description: Registro do dia
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoodRecord"
+        "404":
+          description: Nenhum registro para esta data
+
+  /moods/{id}:
+    delete:
+      tags: [Moods]
+      summary: Excluir registro de humor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Excluído com sucesso
+
+  # ── CHALLENGES ────────────────────────────────────────────────────────────
+  /challenges:
+    get:
+      tags: [Challenges]
+      summary: Listar todos os desafios disponíveis
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de desafios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    category:
+                      type: string
+                    totalDays:
+                      type: integer
+                    xpReward:
+                      type: integer
+                    emoji:
+                      type: string
+                    userChallenge:
+                      type: object
+                      nullable: true
+
+  /challenges/me:
+    get:
+      tags: [Challenges]
+      summary: Meus desafios em andamento
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de desafios do usuário
+
+  /challenges/{id}/join:
+    post:
+      tags: [Challenges]
+      summary: Entrar em um desafio
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "201":
+          description: Entrou no desafio
+        "409":
+          description: Já participa deste desafio
+
+    delete:
+      tags: [Challenges]
+      summary: Sair de um desafio
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Saiu do desafio
+
+  /challenges/{id}/progress:
+    post:
+      tags: [Challenges]
+      summary: Registrar progresso no desafio do dia
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Progresso registrado
+
+  # ── GOALS ─────────────────────────────────────────────────────────────────
+  /goals:
+    get:
+      tags: [Goals]
+      summary: Listar metas do usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: completed
+          in: query
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de metas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  goals:
+                    type: array
+                    items:
+                      type: object
+                  meta:
+                    $ref: "#/components/schemas/Pagination"
+
+    post:
+      tags: [Goals]
+      summary: Criar nova meta
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title:
+                  type: string
+                  example: Meditar 10 minutos por dia
+                description:
+                  type: string
+                targetDate:
+                  type: string
+                  format: date
+      responses:
+        "201":
+          description: Meta criada
+
+  /goals/{id}:
+    patch:
+      tags: [Goals]
+      summary: Atualizar meta
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                completed:
+                  type: boolean
+                targetDate:
+                  type: string
+                  format: date
+      responses:
+        "200":
+          description: Meta atualizada
+
+    delete:
+      tags: [Goals]
+      summary: Excluir meta
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Meta excluída
+
+  # ── ASSESSMENTS ───────────────────────────────────────────────────────────
+  /assessments:
+    post:
+      tags: [Assessments]
+      summary: Submeter avaliação de saúde mental
+      description: |
+        Tipos disponíveis:
+        - **PHQ-9**: Rastreio de depressão (9 perguntas, score 0-27)
+        - **GAD-7**: Rastreio de ansiedade (7 perguntas, score 0-21)
+        - **AUDIT**: Uso de álcool (10 perguntas, score 0-40)
+
+        Cada resposta aceita valores de 0 a 3 (PHQ9/GAD7) ou 0 a 4 (AUDIT).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, responses]
+              properties:
+                type:
+                  type: string
+                  enum: [PHQ9, GAD7, AUDIT]
+                responses:
+                  type: object
+                  example:
+                    q1: 1
+                    q2: 0
+                    q3: 2
+      responses:
+        "201":
+          description: Avaliação registrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  score:
+                    type: integer
+                  riskLevel:
+                    type: string
+                  interpretation:
+                    type: string
+
+    get:
+      tags: [Assessments]
+      summary: Listar avaliações do usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [PHQ9, GAD7, AUDIT]
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de avaliações
+
+  /assessments/latest/{type}:
+    get:
+      tags: [Assessments]
+      summary: Obter avaliação mais recente de um tipo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [PHQ9, GAD7, AUDIT]
+      responses:
+        "200":
+          description: Avaliação mais recente
+        "404":
+          description: Nenhuma avaliação encontrada
+
+  # ── CHAT ──────────────────────────────────────────────────────────────────
+  /chat:
+    get:
+      tags: [Chat]
+      summary: Listar conversas com IA
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de conversas
+
+    post:
+      tags: [Chat]
+      summary: Criar nova conversa
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Como lidar com a ansiedade
+      responses:
+        "201":
+          description: Conversa criada
+
+  /chat/{id}:
+    get:
+      tags: [Chat]
+      summary: Obter conversa com todas as mensagens
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Conversa com mensagens
+
+    delete:
+      tags: [Chat]
+      summary: Excluir conversa
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Conversa excluída
+
+  /chat/{id}/messages:
+    post:
+      tags: [Chat]
+      summary: Enviar mensagem e receber resposta da IA
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content:
+                  type: string
+                  example: Estou me sentindo ansioso com as provas
+      responses:
+        "200":
+          description: Resposta da IA
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      role:
+                        type: string
+                        example: assistant
+                      content:
+                        type: string
+                  riskLevel:
+                    type: string
+                  model:
+                    type: string
+
+  # ── NOTIFICATIONS ─────────────────────────────────────────────────────────
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: Listar notificações
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: unread
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Lista de notificações
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Notification"
+                  unreadCount:
+                    type: integer
+                  meta:
+                    $ref: "#/components/schemas/Pagination"
+
+    delete:
+      tags: [Notifications]
+      summary: Excluir todas as notificações
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Notificações excluídas
+
+  /notifications/{id}/read:
+    patch:
+      tags: [Notifications]
+      summary: Marcar notificação como lida
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Marcada como lida
+
+  /notifications/read-all:
+    patch:
+      tags: [Notifications]
+      summary: Marcar todas as notificações como lidas
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Todas marcadas como lidas
+
+  # ── RESOURCES ─────────────────────────────────────────────────────────────
+  /resources:
+    get:
+      tags: [Resources]
+      summary: Listar recursos de apoio (público)
+      responses:
+        "200":
+          description: Lista de recursos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resource"
+
+  /resources/{id}:
+    get:
+      tags: [Resources]
+      summary: Detalhe de um recurso (público)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Recurso encontrado
+        "404":
+          description: Recurso não encontrado
+
+  # ── ADMIN ─────────────────────────────────────────────────────────────────
+  /admin/stats:
+    get:
+      tags: [Admin]
+      summary: Estatísticas globais da plataforma
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Estatísticas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalUsers:
+                    type: integer
+                  totalMoods:
+                    type: integer
+                  totalAssessments:
+                    type: integer
+                  highRiskCount:
+                    type: integer
+                  activeToday:
+                    type: integer
+                  moodFrequency:
+                    type: object
+                  riskBreakdown:
+                    type: array
+                    items:
+                      type: object
+                  roleBreakdown:
+                    type: array
+                    items:
+                      type: object
+
+  /admin/users:
+    get:
+      tags: [Admin]
+      summary: Listar todos os usuários
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [STUDENT, COUNSELOR, ADMIN]
+      responses:
+        "200":
+          description: Lista de usuários
+
+  /admin/users/{id}:
+    get:
+      tags: [Admin]
+      summary: Detalhe completo de um usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Dados completos do usuário
+
+    patch:
+      tags: [Admin]
+      summary: Atualizar role ou status do usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum: [STUDENT, COUNSELOR, ADMIN]
+                isActive:
+                  type: boolean
+      responses:
+        "200":
+          description: Usuário atualizado
+
+    delete:
+      tags: [Admin]
+      summary: Excluir usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Usuário excluído
+
+  /admin/resources:
+    get:
+      tags: [Admin]
+      summary: Listar todos os recursos (incluindo inativos)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de recursos
+
+    post:
+      tags: [Admin]
+      summary: Criar novo recurso de apoio
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, description, type]
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                type:
+                  type: string
+                  enum: [HOTLINE, WEBSITE, APP, SERVICE]
+                phone:
+                  type: string
+                url:
+                  type: string
+      responses:
+        "201":
+          description: Recurso criado
+
+  /admin/resources/{id}:
+    patch:
+      tags: [Admin]
+      summary: Atualizar recurso
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                type:
+                  type: string
+                isActive:
+                  type: boolean
+                phone:
+                  type: string
+                url:
+                  type: string
+      responses:
+        "200":
+          description: Recurso atualizado
+
+    delete:
+      tags: [Admin]
+      summary: Excluir recurso
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Recurso excluído

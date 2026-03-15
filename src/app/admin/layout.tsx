@@ -9,7 +9,7 @@ import {
   Shield, LogOut, ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { apiFetch, getStoredTokens, clearTokens } from "@/lib/api/client";
+import { apiFetch, getStoredTokens, clearTokens, ApiError } from "@/lib/api/client";
 import { LogoutModal } from "@/components/shared/LogoutModal";
 
 const NAV = [
@@ -146,7 +146,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         setName(u.name);
         setReady(true);
       })
-      .catch(() => router.replace("/login"));
+      .catch((err) => {
+        if (err instanceof ApiError && (err.status === 401 || err.status === 403)) {
+          clearTokens();
+          router.replace("/login");
+        } else {
+          // Erro de rede ou serviço indisponível — mantém na página e tenta novamente
+          setReady(true);
+        }
+      });
   }, [router]);
 
   if (!ready) {

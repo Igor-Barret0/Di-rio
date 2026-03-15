@@ -75,7 +75,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
         "hidden md:flex flex-col shrink-0 transition-all duration-300 ease-in-out h-screen sticky top-0 z-40 overflow-hidden",
         "border-r border-white/6",
         "bg-[#0b0b14]",
-        collapsed ? "w-[62px]" : "w-60",
+        collapsed ? "w-15.5" : "w-60",
       )}
     >
       {/* Gradiente superior decorativo */}
