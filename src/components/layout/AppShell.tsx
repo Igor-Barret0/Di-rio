@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
       <Navbar
         onToggleTheme={toggleTheme}
         themeLabel={mounted && theme === "dark" ? "dark" : "light"}
