@@ -110,7 +110,7 @@ export function Navbar({
               >
                 <Menu className="h-5 w-5" />
               </SheetTrigger>
-              <SheetContent side="left" className="w-75 p-6 border-r-primary/5 rounded-r-4xl">
+              <SheetContent side="left" className="w-75 p-6 border-r-primary/5 rounded-r-4xl flex flex-col">
                 <div className="mb-8">
                   <Logo small />
                 </div>
