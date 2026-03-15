@@ -37,6 +37,33 @@ export const MOOD_OPTIONS: MoodOption[] = [
     colorClass: "from-orange-100 to-orange-200 border-orange-300 text-orange-800",
     colorHex: "#FDBA74",
   },
+  {
+    key: "angry",
+    label: "Irritado",
+    emoji: "😤",
+    description: "Sentindo raiva ou frustração",
+    score: 1,
+    colorClass: "from-red-100 to-red-200 border-red-300 text-red-800",
+    colorHex: "#FCA5A5",
+  },
+  {
+    key: "excited",
+    label: "Animado",
+    emoji: "🤩",
+    description: "Cheio de energia e entusiasmo",
+    score: 5,
+    colorClass: "from-yellow-100 to-amber-200 border-amber-300 text-amber-800",
+    colorHex: "#FCD34D",
+  },
+  {
+    key: "tired",
+    label: "Cansado",
+    emoji: "😴",
+    description: "Sem energia hoje",
+    score: 2,
+    colorClass: "from-slate-100 to-slate-200 border-slate-300 text-slate-700",
+    colorHex: "#CBD5E1",
+  },
 ];
 
 export function moodLabel(key: MoodOption["key"]) {

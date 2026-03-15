@@ -5,8 +5,11 @@ import { useTheme } from "next-themes";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { cn } from "@/lib/utils";
+import { CrisisButton } from "@/components/shared/CrisisButton";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  useRequireAuth();
   const { theme, setTheme } = useTheme();
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -31,11 +34,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         sidebarCollapsed={sidebarCollapsed}
       />
       <div className="flex-1 flex overflow-hidden">
-        <Sidebar 
-          collapsed={sidebarCollapsed} 
+        <Sidebar
+          collapsed={sidebarCollapsed}
           onToggle={toggleSidebar}
         />
-        <main 
+        <main
           className={cn(
             "flex-1 overflow-y-auto px-3 sm:px-5 md:px-7 lg:px-12 transition-all duration-500 ease-in-out pt-20 sm:pt-24",
           )}
@@ -45,6 +48,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </main>
       </div>
+      <CrisisButton />
     </div>
   );
 }

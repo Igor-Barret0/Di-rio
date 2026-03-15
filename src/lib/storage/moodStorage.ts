@@ -21,7 +21,13 @@ export function getMoodRecords(): MoodRecord[] {
     .sort((a, b) => (a.dateISO > b.dateISO ? 1 : -1));
 }
 
-export function upsertMoodForDate(dateISO: string, mood: MoodKey, note?: string): MoodRecord {
+export function upsertMoodForDate(
+  dateISO: string,
+  mood: MoodKey,
+  note?: string,
+  audioBase64?: string,
+  audioDurationSec?: number,
+): MoodRecord {
   if (typeof window === "undefined") {
     return { id: "server", dateISO, mood };
   }
@@ -34,6 +40,8 @@ export function upsertMoodForDate(dateISO: string, mood: MoodKey, note?: string)
     dateISO,
     mood,
     note,
+    audioBase64,
+    audioDurationSec,
   };
 
   const next = records.filter((r) => r.dateISO !== dateISO).concat(record);

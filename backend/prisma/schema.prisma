@@ -1,0 +1,349 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  COUNSELOR
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+enum MoodType {
+  happy
+  neutral
+  sad
+  anxious
+  angry
+  excited
+  tired
+}
+
+enum AssessmentType {
+  PHQ9   // Depressão
+  GAD7   // Ansiedade
+  AUDIT  // Álcool
+}
+
+enum NotificationType {
+  REMINDER
+  BADGE_UNLOCKED
+  CHALLENGE_COMPLETE
+  RISK_ALERT
+  SYSTEM
+}
+
+enum RiskLevel {
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ─────────────────────────────────────────────────────────
+// 1. User — conta principal
+// ─────────────────────────────────────────────────────────
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String?
+  googleId      String?  @unique
+  name          String
+  avatarUrl     String?
+  role          Role     @default(STUDENT)
+  plan          Plan     @default(FREE)
+  emailVerified Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  profile       Profile?
+  moodRecords   MoodRecord[]
+  userChallenges UserChallenge[]
+  userBadges    UserBadge[]
+  xpTransactions XPTransaction[]
+  refreshTokens  RefreshToken[]
+  conversations  ChatConversation[]
+  assessments   Assessment[]
+  notifications Notification[]
+  goals         Goal[]
+  auditLogs     AuditLog[]
+
+  @@index([email])
+}
+
+// ─────────────────────────────────────────────────────────
+// 2. Profile — dados escolares do estudante
+// ─────────────────────────────────────────────────────────
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  school    String?
+  grade     String?   // ex: "9º ano"
+  birthDate DateTime?
+  bio       String?
+  timezone  String    @default("America/Sao_Paulo")
+
+  // Notificação diária
+  reminderEnabled Boolean  @default(true)
+  reminderTime    String   @default("20:00") // HH:MM
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────────────────
+// 3. MoodRecord — registros do diário emocional
+// ─────────────────────────────────────────────────────────
+model MoodRecord {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mood            MoodType
+  note            String?  @db.Text
+  audioUrl        String?  // URL no S3 (versão backend)
+  audioDurationSec Int?
+  dateISO         String   // "YYYY-MM-DD" — um por dia por usuário
+  riskLevel       RiskLevel @default(NONE)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([userId, dateISO])
+  @@index([userId, dateISO])
+}
+
+// ─────────────────────────────────────────────────────────
+// 4. Challenge — desafios disponíveis (seed data)
+// ─────────────────────────────────────────────────────────
+model Challenge {
+  id          String @id @default(uuid())
+  slug        String @unique  // ex: "diario-7-dias"
+  title       String
+  description String
+  emoji       String
+  totalDays   Int
+  xpReward    Int
+  category    String @default("habito") // habito | mindfulness | positivo | criativo
+  isActive    Boolean @default(true)
+
+  userChallenges UserChallenge[]
+}
+
+// ─────────────────────────────────────────────────────────
+// 5. UserChallenge — progresso de cada usuário em desafios
+// ─────────────────────────────────────────────────────────
+model UserChallenge {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengeId   String
+  challenge     Challenge @relation(fields: [challengeId], references: [id])
+
+  startedAt     DateTime  @default(now())
+  completedDays String[]  // ISO dates ["2024-01-01", ...]
+  completedAt   DateTime?
+
+  @@unique([userId, challengeId])
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 6. Badge — badges disponíveis (seed data)
+// ─────────────────────────────────────────────────────────
+model Badge {
+  id          String @id @default(uuid())
+  key         String @unique // ex: "semana_completa"
+  name        String
+  description String
+  icon        String
+  xpThreshold Int?   // XP mínimo para desbloquear (se aplicável)
+
+  userBadges UserBadge[]
+}
+
+// ─────────────────────────────────────────────────────────
+// 7. UserBadge — badges desbloqueados
+// ─────────────────────────────────────────────────────────
+model UserBadge {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId     String
+  badge       Badge    @relation(fields: [badgeId], references: [id])
+  unlockedAt  DateTime @default(now())
+
+  @@unique([userId, badgeId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 8. XPTransaction — histórico de XP ganho
+// ─────────────────────────────────────────────────────────
+model XPTransaction {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  amount    Int      // pode ser negativo (penalidade futura)
+  source    String   // "mood_record" | "challenge_complete" | "badge_unlock"
+  sourceId  String?  // ID do record/challenge que gerou o XP
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 9. RefreshToken — tokens de refresh JWT
+// ─────────────────────────────────────────────────────────
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ─────────────────────────────────────────────────────────
+// 10. ChatConversation — sessões de conversa com IA
+// ─────────────────────────────────────────────────────────
+model ChatConversation {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title     String?  // gerado automaticamente
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages  ChatMessage[]
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 11. ChatMessage — mensagens individuais
+// ─────────────────────────────────────────────────────────
+model ChatMessage {
+  id             String          @id @default(uuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  role    String  // "user" | "assistant"
+  content String  @db.Text
+  tokens  Int?    // tokens usados (para monitorar custo)
+
+  createdAt DateTime @default(now())
+
+  @@index([conversationId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 12. Assessment — questionários PHQ-9 / GAD-7
+// ─────────────────────────────────────────────────────────
+model Assessment {
+  id        String         @id @default(uuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      AssessmentType
+  score     Int
+  responses Json           // { q1: 2, q2: 1, ... }
+  riskLevel RiskLevel      @default(NONE)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, type])
+}
+
+// ─────────────────────────────────────────────────────────
+// 13. Notification — notificações in-app
+// ─────────────────────────────────────────────────────────
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      NotificationType
+  title     String
+  body      String
+  read      Boolean          @default(false)
+  meta      Json?            // dados extras (badgeKey, challengeId...)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+}
+
+// ─────────────────────────────────────────────────────────
+// 14. Goal — metas pessoais do estudante
+// ─────────────────────────────────────────────────────────
+model Goal {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String?
+  completed   Boolean   @default(false)
+  targetDate  DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────
+// 15. Resource — contatos de apoio psicológico (seed data)
+// ─────────────────────────────────────────────────────────
+model Resource {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  phone       String?
+  url         String?
+  type        String  // "crise" | "apoio" | "informacao"
+  isActive    Boolean @default(true)
+}
+
+// ─────────────────────────────────────────────────────────
+// 16. AuditLog — log de ações sensíveis
+// ─────────────────────────────────────────────────────────
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  action    String   // "login" | "password_change" | "data_export" ...
+  ipAddress String?
+  userAgent String?
+  meta      Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+}

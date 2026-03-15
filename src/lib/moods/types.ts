@@ -1,10 +1,12 @@
-export type MoodKey = "happy" | "neutral" | "sad" | "anxious";
+export type MoodKey = "happy" | "neutral" | "sad" | "anxious" | "angry" | "excited" | "tired";
 
 export type MoodRecord = {
   id: string;
   dateISO: string;
   mood: MoodKey;
   note?: string;
+  audioBase64?: string;
+  audioDurationSec?: number;
 };
 
 export type MoodOption = {

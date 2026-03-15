@@ -91,6 +91,19 @@
 
   --radius: 0.75rem;
 
+  /* Emotion colors */
+  --emotion-happy:   #FBBF24;
+  --emotion-neutral: #93C5FD;
+  --emotion-sad:     #C4B5FD;
+  --emotion-anxious: #FDBA74;
+
+  /* Status colors */
+  --status-success:  #10B981;
+  --status-warning:  #F59E0B;
+  --status-error:    #EF4444;
+  --status-critical: #B91C1C;
+  --status-info:     #3B82F6;
+
   /* Sidebar */
   --sidebar: oklch(0.10 0.03 268);
   --sidebar-foreground: oklch(0.97 0.005 268);

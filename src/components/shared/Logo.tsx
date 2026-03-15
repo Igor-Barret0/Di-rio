@@ -1,4 +1,3 @@
-import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -10,7 +9,7 @@ export function Logo({ className, small }: { className?: string; small?: boolean
       <img
         src={`${BASE}/logo-site.png`}
         alt="Diário Emocional"
-        className={small ? "h-12 w-auto object-contain" : "h-32 w-auto object-contain"}
+        className={small ? "h-28 w-auto object-contain" : "h-32 w-auto object-contain"}
       />
     </div>
   );

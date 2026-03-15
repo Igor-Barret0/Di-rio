@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Raleway, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { UserProvider } from "@/lib/context/UserContext";
+import { NotificationsProvider } from "@/lib/context/NotificationsContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
@@ -40,7 +42,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NotificationsProvider>
+            <UserProvider>
+              {children}
+            </UserProvider>
+          </NotificationsProvider>
           <Toaster richColors closeButton />
         </ThemeProvider>
       </body>

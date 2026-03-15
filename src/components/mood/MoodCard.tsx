@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -10,8 +10,11 @@ import type { MoodOption } from "@/lib/moods/types";
 const moodStyles: Record<string, { bg: string; ring: string; label: string; glow: string }> = {
   happy:   { bg: "from-emerald-50 via-emerald-100 to-emerald-200", ring: "ring-emerald-400", label: "text-emerald-700", glow: "shadow-emerald-200" },
   neutral: { bg: "from-blue-50 via-blue-100 to-blue-200",         ring: "ring-blue-400",    label: "text-blue-700",    glow: "shadow-blue-200"    },
-  sad:     { bg: "from-violet-50 via-violet-100 to-violet-200",   ring: "ring-violet-400", label: "text-violet-700", glow: "shadow-violet-200" },
-  anxious: { bg: "from-orange-50 via-orange-100 to-orange-200",   ring: "ring-orange-400", label: "text-orange-700", glow: "shadow-orange-200"  },
+  sad:     { bg: "from-violet-50 via-violet-100 to-violet-200",   ring: "ring-violet-400",  label: "text-violet-700",  glow: "shadow-violet-200"  },
+  anxious: { bg: "from-orange-50 via-orange-100 to-orange-200",   ring: "ring-orange-400",  label: "text-orange-700",  glow: "shadow-orange-200"  },
+  angry:   { bg: "from-red-50 via-red-100 to-red-200",            ring: "ring-red-400",     label: "text-red-700",     glow: "shadow-red-200"     },
+  excited: { bg: "from-yellow-50 via-amber-100 to-amber-200",     ring: "ring-amber-400",   label: "text-amber-700",   glow: "shadow-amber-200"   },
+  tired:   { bg: "from-slate-50 via-slate-100 to-slate-200",      ring: "ring-slate-400",   label: "text-slate-600",   glow: "shadow-slate-200"   },
 };
 
 export function MoodCard({
@@ -52,7 +55,7 @@ export function MoodCard({
     >
       {/* fundo gradiente sempre visível */}
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-br transition-opacity duration-300",
+        "absolute inset-0 bg-linear-to-br transition-opacity duration-300",
         style.bg,
         selected ? "opacity-100" : "opacity-60 group-hover:opacity-90",
       )} />
