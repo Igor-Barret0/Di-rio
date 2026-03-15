@@ -52,6 +52,7 @@ const desktopNavItems = [
   { href: "/dashboard", label: "Início",   icon: Home },
   { href: "/historico", label: "Jornada",  icon: BarChart3 },
   { href: "/insights",  label: "Dicas",    icon: Lightbulb },
+  { href: "/perfil",    label: "Perfil",   icon: User },
 ];
 
 function timeAgo(iso: string) {
