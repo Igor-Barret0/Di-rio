@@ -31,8 +31,8 @@ if (googleEnabled) {
     passport.authenticate("google", { session: false, failureRedirect: `${env.frontendUrl}/login?error=google_auth_failed` }),
     async (req, res) => {
       try {
-        const prismaUser = req.user as { id: string; email: string; role: string };
-        const { accessToken, refreshToken } = await loginSocial(prismaUser);
+        const u = req.user!;
+        const { accessToken, refreshToken } = await loginSocial({ id: u.userId, email: u.email, role: u.role });
         res.redirect(
           `${env.frontendUrl}/auth/google/callback?` +
           `access_token=${encodeURIComponent(accessToken)}&` +
