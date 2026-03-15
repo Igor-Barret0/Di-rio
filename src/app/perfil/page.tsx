@@ -78,7 +78,7 @@ function SettingRow({ icon, title, description, children }: {
   icon: React.ReactNode; title: string; description?: string; children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 py-3.5 border-b border-border/30 last:border-0">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-3.5 border-b border-border/30 last:border-0">
       <div className="flex items-start gap-3">
         <div className="w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center text-muted-foreground shrink-0">
           {icon}
@@ -88,7 +88,7 @@ function SettingRow({ icon, title, description, children }: {
           {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
         </div>
       </div>
-      <div className="shrink-0">{children}</div>
+      <div className="shrink-0 pl-11 sm:pl-0">{children}</div>
     </div>
   );
 }
