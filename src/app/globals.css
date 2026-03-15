@@ -203,12 +203,14 @@
   }
 }
 
-/* ─── Bootstrap Override (fora de layer = maior prioridade) ── */
-aside a,
-aside button {
-  color: inherit;
-  text-decoration: none;
-  border-color: transparent;
+/* ─── Bootstrap Override ── */
+@layer base {
+  aside a,
+  aside button {
+    color: inherit;
+    text-decoration: none;
+    border-color: transparent;
+  }
 }
 
 /* ─── Rounded Override (class 0,1,0 > Bootstrap button 0,0,1) ── */
