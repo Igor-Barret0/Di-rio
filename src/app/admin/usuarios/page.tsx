@@ -152,7 +152,7 @@ export default function AdminUsuarios() {
       </motion.div>
 
       {/* ── List ── */}
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="overflow-x-auto">
         {loading ? (
           <div className="space-y-2">
             {[...Array(6)].map((_,i) => (

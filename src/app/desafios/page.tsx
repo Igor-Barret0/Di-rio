@@ -95,7 +95,7 @@ export default function DesafiosPage() {
         </motion.div>
 
         {/* ── Stats ─────────────────────────────────────────────────────────── */}
-        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-3">
+        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-2">
           {[
             {
               label: "Em andamento", value: joined - completed,

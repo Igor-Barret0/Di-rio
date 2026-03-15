@@ -582,7 +582,7 @@ function PerfilPageContent() {
               <div className="lg:col-span-8 space-y-4">
 
                 {/* Stats row */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2">
                   {[
                     { label: "Total de Registros",    sub: "Desde o início",  value: stats.total,    gradient: "from-indigo-500 to-violet-500",  num: "text-indigo-600 dark:text-indigo-400",  light: "bg-indigo-50 dark:bg-indigo-950/20",  border: "border-indigo-200/60 dark:border-indigo-800/30",  icon: History     },
                     { label: "Bem-estar Médio",        sub: "Score geral",     value: `${Math.round((stats.avgScore / 4) * 100)}%`, gradient: "from-emerald-500 to-teal-500", num: "text-emerald-600 dark:text-emerald-400", light: "bg-emerald-50 dark:bg-emerald-950/20", border: "border-emerald-200/60 dark:border-emerald-800/30", icon: TrendingUp  },

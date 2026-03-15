@@ -131,7 +131,7 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {features.map(({ icon: Icon, title, desc }, i) => (
                 <motion.div
                   key={title}
@@ -182,7 +182,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Card */}
-          <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl shadow-indigo-900/8 px-8 py-7">
+          <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl shadow-indigo-900/8 px-5 sm:px-8 py-7">
 
             {/* Header */}
             <div className="mb-5">

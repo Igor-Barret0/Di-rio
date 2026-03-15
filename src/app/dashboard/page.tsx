@@ -316,7 +316,7 @@ export default function DashboardPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.38, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-                className="grid grid-cols-3 gap-3"
+                className="grid grid-cols-3 gap-2"
               >
                 {[
                   { icon: BookOpen, gradient: "from-indigo-500 to-violet-500", bg: "bg-indigo-50 dark:bg-indigo-950/30", border: "border-indigo-100 dark:border-indigo-900/40", title: "Registro diário", desc: "Capture seu humor em segundos" },

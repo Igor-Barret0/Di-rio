@@ -178,7 +178,7 @@ function LoginContent() {
             </motion.div>
 
             {/* Feature grid */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {features.map(({ icon: Icon, title, desc, color, iconColor }, i) => (
                 <motion.div
                   key={title}
@@ -204,7 +204,7 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.9 }}
-            className="flex items-center gap-6 px-1 mt-4"
+            className="flex flex-wrap items-center gap-4 px-1 mt-4"
           >
             {stats.map((s, i) => (
               <React.Fragment key={s.value}>
@@ -242,7 +242,7 @@ function LoginContent() {
           </div>
 
           {/* Card do formulário */}
-          <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl shadow-indigo-900/8 px-8 py-7">
+          <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl shadow-indigo-900/8 px-5 sm:px-8 py-7">
 
             {/* Header */}
             <div className="mb-5">

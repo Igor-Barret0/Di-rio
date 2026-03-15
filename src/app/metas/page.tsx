@@ -124,7 +124,7 @@ export default function MetasPage() {
 
         {/* ── Stats + progresso geral ────────────────────────────────────────── */}
         <motion.div variants={fadeUp} className="space-y-3">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {[
               { label: "Total",         value: goals.length, gradient: "from-slate-500 to-gray-600",   light: "bg-slate-50 dark:bg-slate-950/20",   border: "border-slate-200/60 dark:border-slate-800/30",   num: "text-slate-700 dark:text-slate-300", icon: ListChecks  },
               { label: "Em andamento",  value: activeCount,  gradient: "from-indigo-500 to-violet-500", light: "bg-indigo-50 dark:bg-indigo-950/20", border: "border-indigo-200/60 dark:border-indigo-800/30", num: "text-indigo-700 dark:text-indigo-300", icon: TrendingUp },

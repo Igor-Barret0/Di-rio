@@ -252,7 +252,7 @@ export default function HistoricoPage() {
         </motion.div>
 
         {/* ── Stats rápidos ──────────────────────────────── */}
-        <motion.div variants={iv} className="grid grid-cols-3 gap-3">
+        <motion.div variants={iv} className="grid grid-cols-3 gap-2">
           {[
             {
               icon: BookOpen, label: "Registros", value: records.length,
