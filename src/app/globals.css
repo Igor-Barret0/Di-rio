@@ -205,7 +205,9 @@
 
 /* ─── Bootstrap Override (fora de layer = maior prioridade) ── */
 aside a,
-aside button {
+aside button,
+[data-slot="sheet-content"] a,
+[data-slot="sheet-content"] button {
   color: inherit;
   text-decoration: none;
   border-color: transparent;

@@ -114,7 +114,7 @@ export function Navbar({
                 <div className="mb-8">
                   <Logo small />
                 </div>
-                <nav className="grid gap-2">
+                <nav className="flex-1 grid gap-1 content-start overflow-y-auto">
                   {navItems.map((item) => (
                     <Link
                       key={item.href}
