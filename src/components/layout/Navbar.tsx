@@ -23,6 +23,8 @@ import {
   Trophy,
   Target,
   ClipboardList,
+  Settings,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -130,6 +132,22 @@ export function Navbar({
                   ))}
                 </nav>
                 <div className="mt-auto pt-8 border-t border-primary/5 grid gap-3">
+                  <Link
+                    href="/perfil"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-muted-foreground! hover:bg-primary/10 hover:text-primary! transition-all"
+                  >
+                    <Settings className="h-5 w-5" />
+                    Configurações
+                  </Link>
+                  <a
+                    href="https://cvv.org.br/chat"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-muted-foreground! hover:bg-primary/10 hover:text-primary! transition-all"
+                  >
+                    <HelpCircle className="h-5 w-5" />
+                    Suporte
+                  </a>
                   <Button
                     type="button"
                     variant="outline"
