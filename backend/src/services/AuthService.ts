@@ -3,7 +3,7 @@ import { hashPassword, comparePassword, generateToken } from "../utils/crypto";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../utils/jwt";
 import { AppError } from "../middleware/errorHandler";
 import { JwtPayload } from "../types";
-import { sendWelcome, sendPasswordReset } from "./EmailService";
+import { sendWelcome, sendPasswordReset, sendSocialLoginReminder } from "./EmailService";
 import { redis } from "../config/redis";
 import { logger } from "../config/logger";
 import { normalizeEmail } from "../utils/formatters";
@@ -94,7 +94,8 @@ export async function logoutAll(userId: string) {
 }
 
 export async function forgotPassword(email: string): Promise<void> {
-  const user = await prisma.user.findUnique({ where: { email } });
+  const normalized = normalizeEmail(email);
+  const user = await prisma.user.findUnique({ where: { email: normalized } });
 
   // Always respond with success to avoid email enumeration attacks
   if (!user) {
@@ -106,7 +107,7 @@ export async function forgotPassword(email: string): Promise<void> {
     return;
   }
   if (!user.passwordHash) {
-    logger.debug("forgotPassword: conta sem senha (login social)", { email });
+    sendSocialLoginReminder(user.email, user.name).catch(() => null);
     return;
   }
 
