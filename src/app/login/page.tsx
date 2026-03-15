@@ -178,21 +178,21 @@ function LoginContent() {
             </motion.div>
 
             {/* Feature grid */}
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-3">
               {features.map(({ icon: Icon, title, desc, color, iconColor }, i) => (
                 <motion.div
                   key={title}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: 0.55 + i * 0.07 }}
-                  className={`flex gap-2.5 p-3 rounded-xl border ${color} hover:brightness-110 transition-all`}
+                  className={`flex gap-3 p-4 rounded-2xl border ${color} hover:brightness-110 transition-all`}
                 >
-                  <div className="shrink-0 mt-0.5">
-                    <Icon className={`w-3.5 h-3.5 ${iconColor}`} />
+                  <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center ${color}`}>
+                    <Icon className={`w-4 h-4 ${iconColor}`} />
                   </div>
-                  <div>
-                    <p className="text-white text-[11px] font-bold leading-tight">{title}</p>
-                    <p className="text-white/35 text-[10px] mt-0.5 leading-snug">{desc}</p>
+                  <div className="min-w-0">
+                    <p className="text-white text-xs font-bold leading-tight">{title}</p>
+                    <p className="text-white/50 text-[11px] mt-1 leading-snug">{desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -204,16 +204,16 @@ function LoginContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.9 }}
-            className="flex items-center gap-8"
+            className="flex items-center gap-6 px-1"
           >
             {stats.map((s, i) => (
               <React.Fragment key={s.value}>
-                {i > 0 && <div className="w-px h-8 bg-white/10" />}
-                <div className="flex items-center gap-2">
-                  <s.icon className="w-4 h-4 text-white/40" />
+                {i > 0 && <div className="w-px h-10 bg-white/10" />}
+                <div className="flex items-center gap-2.5">
+                  <s.icon className="w-4 h-4 text-white/40 shrink-0" />
                   <div>
-                    <p className="text-white font-black text-xl tracking-tight leading-none">{s.value}</p>
-                    <p className="text-white/35 text-[10px] mt-0.5 font-semibold">{s.label}</p>
+                    <p className="text-white font-black text-2xl tracking-tight leading-none">{s.value}</p>
+                    <p className="text-white/40 text-[11px] mt-1 font-semibold">{s.label}</p>
                   </div>
                 </div>
               </React.Fragment>

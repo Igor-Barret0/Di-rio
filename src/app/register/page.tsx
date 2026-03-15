@@ -138,14 +138,14 @@ export default function RegisterPage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.45 + i * 0.07 }}
-                  className="flex gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/8 hover:bg-white/9 transition-colors group"
+                  className="flex gap-3 p-4 rounded-2xl bg-white/5 border border-white/8 hover:bg-white/9 transition-colors group"
                 >
                   <div className="w-8 h-8 rounded-xl bg-indigo-400/15 border border-indigo-300/15 flex items-center justify-center shrink-0 group-hover:bg-indigo-400/25 transition-colors">
-                    <Icon className="w-3.5 h-3.5 text-indigo-200" />
+                    <Icon className="w-4 h-4 text-indigo-200" />
                   </div>
-                  <div>
-                    <p className="text-white text-xs font-semibold leading-snug">{title}</p>
-                    <p className="text-white/40 text-[11px] mt-0.5 leading-snug">{desc}</p>
+                  <div className="min-w-0">
+                    <p className="text-white text-xs font-bold leading-tight">{title}</p>
+                    <p className="text-white/50 text-[11px] mt-1 leading-snug">{desc}</p>
                   </div>
                 </motion.div>
               ))}
