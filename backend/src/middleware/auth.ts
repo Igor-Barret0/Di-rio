@@ -9,13 +9,6 @@ export interface AuthPayload {
   role: string;
 }
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: AuthPayload;
-    }
-  }
-}
 
 export function authenticate(req: Request, _res: Response, next: NextFunction) {
   const header = req.headers.authorization;
