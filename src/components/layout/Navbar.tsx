@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useNotifications, iconForType } from "@/lib/context/NotificationsContext";
 
+// Todos os itens — usados no drawer mobile
 const navItems = [
   { href: "/dashboard",    label: "Início",        icon: Home },
   { href: "/historico",    label: "Jornada",       icon: BarChart3 },
@@ -44,6 +45,13 @@ const navItems = [
   { href: "/avaliacoes",   label: "Avaliações",    icon: ClipboardList },
   { href: "/notificacoes", label: "Notificações",  icon: Bell },
   { href: "/perfil",       label: "Perfil",        icon: User },
+];
+
+// Itens na navbar desktop (sidebar já cuida dos demais)
+const desktopNavItems = [
+  { href: "/dashboard", label: "Início",   icon: Home },
+  { href: "/historico", label: "Jornada",  icon: BarChart3 },
+  { href: "/insights",  label: "Dicas",    icon: Lightbulb },
 ];
 
 function timeAgo(iso: string) {
@@ -197,7 +205,7 @@ export function Navbar({
           </div>
 
           <nav className="hidden items-center gap-2 md:flex">
-            {navItems.map((item) => (
+            {desktopNavItems.map((item) => (
               <Link key={item.href} href={item.href} className="relative px-4 py-2 group">
                 <div className={cn(
                   "flex items-center gap-2 text-sm font-bold tracking-tight transition-colors duration-300",
