@@ -148,7 +148,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                         "relative flex items-center justify-center h-10 w-full rounded-xl transition-all",
                         isActive
                           ? "bg-indigo-500/40 text-white"
-                          : "text-white/80 hover:text-white hover:bg-white/8",
+                          : "text-white/90 hover:text-white hover:bg-white/8",
                       )}
                     >
                       <item.icon className="h-4.5 w-4.5" />
@@ -172,7 +172,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                       "relative flex items-center gap-3 h-9 px-3 rounded-xl transition-all duration-200 group",
                       isActive
                         ? "bg-indigo-500/15 text-white"
-                        : "text-white/80 hover:text-white hover:bg-white/6",
+                        : "text-white/90 hover:text-white hover:bg-white/6",
                     )}
                   >
                     {isActive && (
@@ -187,7 +187,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                       "w-6 h-6 flex items-center justify-center shrink-0 rounded-lg transition-all",
                       isActive
                         ? "bg-indigo-500/30 text-indigo-300"
-                        : "text-white/80 group-hover:text-white",
+                        : "text-white/90 group-hover:text-white",
                     )}>
                       <item.icon className="h-3.5 w-3.5" />
                     </div>
@@ -283,7 +283,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 title="Configurações"
                 className={cn(
                   "flex items-center justify-center h-10 w-full rounded-xl transition-all group",
-                  isConfigActive ? "bg-indigo-500/40 text-white" : "text-white/60 hover:text-white/90 hover:bg-white/8",
+                  isConfigActive ? "bg-indigo-500/40 text-white" : "text-white/90 hover:text-white hover:bg-white/8",
                 )}
               >
                 <Settings className="h-4.5 w-4.5 transition-transform duration-300 group-hover:rotate-90" />
@@ -293,7 +293,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Suporte — CVV"
-                className="flex items-center justify-center h-10 w-full rounded-xl text-white/60 hover:text-white/90 hover:bg-white/8 transition-all"
+                className="flex items-center justify-center h-10 w-full rounded-xl text-white/90 hover:text-white hover:bg-white/8 transition-all"
               >
                 <HelpCircle className="h-4.5 w-4.5" />
               </a>
@@ -319,7 +319,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 href="/perfil?tab=configuracoes"
                 className={cn(
                   "flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium transition-all group",
-                  isConfigActive ? "bg-indigo-500/15 text-white" : "text-white/80 hover:text-white hover:bg-white/6",
+                  isConfigActive ? "bg-indigo-500/15 text-white" : "text-white/90 hover:text-white hover:bg-white/6",
                 )}
               >
                 <Settings className={cn("h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-90 shrink-0", isConfigActive && "text-indigo-300")} />
@@ -329,14 +329,14 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 href="https://cvv.org.br/chat"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/80 hover:text-white hover:bg-white/6 transition-all"
+                className="flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/90 hover:text-white hover:bg-white/6 transition-all"
               >
                 <HelpCircle className="h-3.5 w-3.5 shrink-0" />
                 Suporte
               </a>
               <button
                 onClick={() => setConfirmLogout(true)}
-                className="w-full flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/40 hover:text-rose-400 hover:bg-rose-500/8 transition-all"
+                className="w-full flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/90 hover:text-rose-400 hover:bg-rose-500/8 transition-all"
               >
                 <LogOut className="h-3.5 w-3.5 shrink-0" />
                 Sair
