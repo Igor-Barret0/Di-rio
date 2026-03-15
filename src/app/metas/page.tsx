@@ -192,7 +192,7 @@ export default function MetasPage() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute top-full left-0 right-0 mt-1.5 rounded-2xl border border-border/50 bg-card shadow-lg z-20 overflow-hidden"
+                          className="absolute top-full left-0 mt-1.5 rounded-2xl border border-border/50 bg-card shadow-lg z-50 overflow-hidden w-72 max-w-[90vw]"
                         >
                           <p className="px-3 pt-2.5 pb-1 text-[10px] font-black uppercase tracking-wider text-muted-foreground/60">Sugestões</p>
                           {SUGGESTIONS.map((s) => (
