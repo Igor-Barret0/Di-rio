@@ -160,7 +160,7 @@ export function CrisisButton() {
           duration: 2,
           ease: "easeOut",
         }}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 rounded-full bg-rose-600 px-4 py-3 text-white shadow-xl shadow-rose-600/40 hover:bg-rose-500 transition-colors"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2 rounded-full bg-rose-600 px-3 py-2 sm:px-4 sm:py-3 text-white shadow-xl shadow-rose-600/40 hover:bg-rose-500 transition-colors"
         aria-label="Ajuda em crise"
       >
         <AnimatePresence mode="wait">
@@ -184,7 +184,7 @@ export function CrisisButton() {
               className="flex items-center gap-2"
             >
               <Phone className="h-5 w-5" />
-              <span className="text-sm font-black">SOS 188</span>
+              <span className="text-xs sm:text-sm font-black">SOS 188</span>
             </motion.span>
           )}
         </AnimatePresence>

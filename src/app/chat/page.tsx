@@ -208,23 +208,23 @@ export default function ChatPage() {
 
         {/* ── Sidebar de conversas ── */}
         <div className={cn(
-          "flex-col w-72 shrink-0 rounded-3xl overflow-hidden",
-          "bg-[#0b0b14] border border-white/6 shadow-xl shadow-black/20",
+          "flex-col shrink-0 rounded-3xl overflow-hidden",
+          "w-full md:w-72 bg-card md:bg-[#0b0b14] border border-border/40 md:border-white/6 shadow-xl shadow-black/10 md:shadow-black/20",
           showList ? "flex" : "hidden md:flex",
         )}>
           {/* Header */}
-          <div className="px-4 py-4 border-b border-white/6 flex items-center justify-between shrink-0">
+          <div className="px-4 py-4 border-b border-border/20 md:border-white/6 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-xl bg-linear-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-sm shadow-indigo-500/30">
                 <MessageSquare className="w-3.5 h-3.5 text-white" />
               </div>
-              <h2 className="text-sm font-black text-white tracking-tight">Conversas</h2>
+              <h2 className="text-sm font-black text-foreground md:text-white tracking-tight">Conversas</h2>
             </div>
             <button
               onClick={handleNewConversation}
               disabled={!isAuthenticated}
               title="Nova conversa"
-              className="w-7 h-7 rounded-xl bg-white/8 hover:bg-white/14 text-white/70 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30"
+              className="w-7 h-7 rounded-xl bg-muted/60 md:bg-white/8 hover:bg-muted md:hover:bg-white/14 text-muted-foreground md:text-white/70 hover:text-foreground md:hover:text-white flex items-center justify-center transition-colors disabled:opacity-30"
             >
               <Plus className="w-3.5 h-3.5" />
             </button>

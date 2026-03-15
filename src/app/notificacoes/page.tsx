@@ -32,7 +32,7 @@ export default function NotificacoesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-2xl bg-linear-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
                 <Bell className="h-5 w-5 text-white" />
@@ -52,7 +52,7 @@ export default function NotificacoesPage() {
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="flex items-center gap-1.5 h-8 px-3 rounded-xl border border-border/60 bg-card text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    className="flex items-center gap-1.5 h-8 px-3 rounded-xl border border-border/60 bg-card text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors whitespace-nowrap shrink-0"
                   >
                     <CheckCheck className="h-3.5 w-3.5" />
                     Marcar lidas

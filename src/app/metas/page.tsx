@@ -172,7 +172,7 @@ export default function MetasPage() {
               </div>
               <div className="p-4 space-y-3">
                 <div className="flex gap-2">
-                  <div className="relative flex-1">
+                  <div className="relative flex-1 min-w-0">
                     <input
                       ref={inputRef}
                       value={newTitle}
@@ -227,13 +227,13 @@ export default function MetasPage() {
         )}
 
         {/* ── Filtros ────────────────────────────────────────────────────────── */}
-        <motion.div variants={fadeUp} className="flex gap-2">
+        <motion.div variants={fadeUp} className="flex gap-2 overflow-x-auto pb-1">
           {FILTERS.map(({ key, label, count }) => (
             <button
               key={key}
               onClick={() => setFilter(key)}
               className={cn(
-                "flex items-center gap-1.5 px-4 h-9 rounded-xl text-xs font-bold transition-all",
+                "flex items-center gap-1.5 px-4 h-9 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0",
                 filter === key
                   ? "bg-linear-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/20"
                   : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted",

@@ -193,7 +193,7 @@ export default function DesafiosPage() {
                         </div>
 
                         {/* XP + actions */}
-                        <div className="flex items-center justify-between gap-2 pt-1">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                           <div className="flex items-center gap-1">
                             <Zap className={cn("w-3.5 h-3.5", challenge.color)} />
                             <span className={cn("text-xs font-black", challenge.color)}>+{challenge.xpReward} XP</span>
@@ -203,7 +203,7 @@ export default function DesafiosPage() {
                               disabled={!state.canMarkToday}
                               onClick={() => handleMark(challenge.id, challenge.title)}
                               className={cn(
-                                "h-8 px-4 rounded-xl text-xs font-bold text-white transition-opacity shadow-md",
+                                "h-8 px-4 rounded-xl text-xs font-bold text-white transition-opacity shadow-md whitespace-nowrap shrink-0",
                                 "bg-linear-to-r disabled:opacity-40",
                                 g.btn,
                               )}

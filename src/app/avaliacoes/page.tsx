@@ -387,7 +387,7 @@ export default function AvaliacoesPage() {
                       isActive ? "text-foreground" : "text-foreground",
                     )}>{t.label}</p>
                     <p className="text-xs text-muted-foreground font-medium mt-0.5">{t.sub}</p>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 mt-2 flex-wrap">
                       <span className="text-[10px] font-bold text-muted-foreground/60 bg-muted/50 px-2 py-0.5 rounded-full">{t.questions} perguntas</span>
                       <span className="text-[10px] font-bold text-muted-foreground/60 bg-muted/50 px-2 py-0.5 rounded-full">máx {t.maxScore} pts</span>
                     </div>
