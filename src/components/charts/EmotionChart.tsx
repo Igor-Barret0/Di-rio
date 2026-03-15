@@ -38,8 +38,8 @@ export function EmotionChart({
   }, [records]);
 
   return (
-    <div style={{ width: "100%", height }} className="min-w-0">
-      <ResponsiveContainer width="100%" height="100%" debounce={50} minWidth={0}>
+    <div className="w-full min-w-0">
+      <ResponsiveContainer width="100%" height={height} debounce={50} minWidth={0}>
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
