@@ -11,6 +11,6 @@ export const rateLimiter = rateLimit({
 
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: env.nodeEnv === "development" ? 100 : 10,
+  max: env.nodeEnv === "development" ? 100 : 20,
   message: { error: "Muitas tentativas de acesso. Tente novamente em 15 minutos." },
 });
