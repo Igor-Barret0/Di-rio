@@ -127,7 +127,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
           {NAV_GROUPS.map((group) => (
             <div key={group.label} className="space-y-0.5">
               {!collapsed && (
-                <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/25 select-none">
+                <p className="px-3 pt-3 pb-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/40 select-none">
                   {group.label}
                 </p>
               )}
@@ -172,7 +172,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                       "relative flex items-center gap-3 h-9 px-3 rounded-xl transition-all duration-200 group",
                       isActive
                         ? "bg-indigo-500/15 text-white"
-                        : "text-white/45 hover:text-white/90 hover:bg-white/6",
+                        : "text-white/70 hover:text-white/90 hover:bg-white/6",
                     )}
                   >
                     {isActive && (
@@ -187,7 +187,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                       "w-6 h-6 flex items-center justify-center shrink-0 rounded-lg transition-all",
                       isActive
                         ? "bg-indigo-500/30 text-indigo-300"
-                        : "text-white/40 group-hover:text-white/80",
+                        : "text-white/65 group-hover:text-white/90",
                     )}>
                       <item.icon className="h-3.5 w-3.5" />
                     </div>
@@ -214,7 +214,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
           {/* ── Card de progresso ──────────────────── */}
           {!collapsed && (
             <div className="pt-3 pb-1">
-              <p className="px-3 pt-1 pb-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/25 select-none">
+              <p className="px-3 pt-1 pb-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/40 select-none">
                 Progresso
               </p>
               <div className="rounded-2xl bg-white/4 border border-white/[0.07] p-3.5 space-y-3.5">
@@ -319,7 +319,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 href="/perfil?tab=configuracoes"
                 className={cn(
                   "flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium transition-all group",
-                  isConfigActive ? "bg-indigo-500/15 text-white" : "text-white/40 hover:text-white/80 hover:bg-white/6",
+                  isConfigActive ? "bg-indigo-500/15 text-white" : "text-white/65 hover:text-white/90 hover:bg-white/6",
                 )}
               >
                 <Settings className={cn("h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-90 shrink-0", isConfigActive && "text-indigo-300")} />
@@ -329,7 +329,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle?
                 href="https://cvv.org.br/chat"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/40 hover:text-white/80 hover:bg-white/6 transition-all"
+                className="flex items-center gap-3 h-9 px-3 rounded-xl text-sm font-medium text-white/65 hover:text-white/90 hover:bg-white/6 transition-all"
               >
                 <HelpCircle className="h-3.5 w-3.5 shrink-0" />
                 Suporte
