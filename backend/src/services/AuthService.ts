@@ -77,7 +77,7 @@ export async function refresh(token: string) {
   }
 
   // Rotate: delete old, issue new pair
-  await prisma.refreshToken.delete({ where: { token } });
+  await prisma.refreshToken.deleteMany({ where: { token } });
 
   const user = await prisma.user.findUnique({ where: { id: payload.userId } });
   if (!user || !user.isActive) throw new AppError(401, "Usuário não encontrado");

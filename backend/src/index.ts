@@ -37,6 +37,9 @@ import { startBadgeCron } from "./cron/badges";
 const app = express();
 const server = http.createServer(app);
 
+// Trust Render/Cloudflare proxy — required for express-rate-limit
+app.set("trust proxy", 1);
+
 // Socket.io — initialises the singleton used throughout the app
 const io = initSocketServer(server);
 
