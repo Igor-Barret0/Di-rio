@@ -253,7 +253,7 @@ export default function RegisterPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label htmlFor="escola" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                    Escola <span className="text-gray-400 normal-case font-normal">(opcional)</span>
+                    Escola
                   </label>
                   <div className="relative">
                     <School className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -263,13 +263,14 @@ export default function RegisterPage() {
                       placeholder="Nome da escola"
                       value={escola}
                       onChange={(e) => setEscola(e.target.value)}
+                      required
                       className="w-full h-11 pl-10 pr-4 text-sm rounded-xl border border-gray-200 bg-gray-50/80 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
                     />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="turma" className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                    Turma / Série <span className="text-gray-400 normal-case font-normal">(opcional)</span>
+                    Turma / Série
                   </label>
                   <div className="relative">
                     <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -279,6 +280,7 @@ export default function RegisterPage() {
                       placeholder="Ex: 8º Ano B"
                       value={turma}
                       onChange={(e) => setTurma(e.target.value)}
+                      required
                       className="w-full h-11 pl-10 pr-4 text-sm rounded-xl border border-gray-200 bg-gray-50/80 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
                     />
                   </div>
