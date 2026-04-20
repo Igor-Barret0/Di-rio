@@ -98,19 +98,19 @@ export async function sendSocialLoginReminder(to: string, name: string): Promise
   const loginUrl = `${env.frontendUrl}/login`;
   await send({
     to,
-    subject: "Acesso 00e0 sua conta 2014 Di00e1rio Emocional",
+    subject: "Acesso à sua conta — Diário Emocional",
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:auto">
-        <h2 style="color:#6366f1">Ol00e1, ${name}</h2>
-        <p>Recebemos uma solicita00e700e3o de recupera00e700e3o de senha para esta conta.</p>
-        <p>Sua conta foi criada com o <strong>Google</strong>, por isso n00e3o possui senha cadastrada.</p>
-        <p>Para acessar, use o bot00e3o <strong>"Continuar com Google"</strong> na tela de login:</p>
+        <h2 style="color:#6366f1">Olá, ${name}</h2>
+        <p>Recebemos uma solicitação de recuperação de senha para esta conta.</p>
+        <p>Sua conta foi criada com o <strong>Google</strong>, por isso não possui senha cadastrada.</p>
+        <p>Para acessar, use o botão <strong>"Continuar com Google"</strong> na tela de login:</p>
         <a href="${loginUrl}"
            style="display:inline-block;padding:12px 24px;background:#6366f1;color:#fff;border-radius:8px;text-decoration:none;margin:16px 0">
           Ir para o login
         </a>
         <p style="color:#64748b;font-size:12px">
-          Se voc00ea n00e3o solicitou isso, ignore este e-mail.
+          Se você não solicitou isso, ignore este e-mail.
         </p>
       </div>
     `,
