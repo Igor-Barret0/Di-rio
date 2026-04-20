@@ -14,6 +14,8 @@ interface RegisterInput {
   name: string;
   email: string;
   password: string;
+  school?: string;
+  grade?: string;
 }
 
 interface LoginInput {
@@ -33,7 +35,7 @@ export async function register(input: RegisterInput) {
       name: input.name,
       email,
       passwordHash,
-      profile: { create: {} },
+      profile: { create: { school: input.school, grade: input.grade } },
     },
     include: { profile: true },
   });
